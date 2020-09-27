@@ -19,7 +19,14 @@ import(
 // Let's get this party started.
 //
 func main() {
+
+	// TODO: Support multiple services.
 	config := lib.NewConfig("CoinMarketCap")
 
-	fmt.Println(config)
+	service := lib.NewService(config.Load())
+
+	request := lib.NewRequest(service)
+	results := request.Get()
+
+	fmt.Println(results)
 }

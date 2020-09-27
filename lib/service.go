@@ -18,3 +18,26 @@ type ServiceConfig struct {
 	URL     string   `json:"url"`
 	Symbols []string `json:"symbols"`
 }
+
+//
+// Service declared data types.
+//
+type Service struct {
+	Config ServiceConfig
+}
+
+//
+// NewService creates a new service instance.
+//
+func NewService(config ServiceConfig) *Service {
+	service := &Service{}
+	service.Config = config
+	return service
+}
+
+//
+// URL returns a valid resource identifier.
+//
+func (service *Service) URL() string {
+	return service.Config.URL
+}
