@@ -9,11 +9,16 @@
 
 package coinmarketcap
 
+import (
+	"github.com/nuxy/go-crypto-market-ui/lib/service/coin_market_cap/quotes"
+)
+
 //
 // EndpointInterface provides runtime methods.
 //
 type EndpointInterface interface {
-	URI() string
+	URI()    string
+	Schema() interface{}
 }
 
 //
@@ -26,4 +31,11 @@ type Quotes struct{}
 //
 func (Quotes) URI() string {
 	return "cryptocurrency/quotes/latest?symbol=%s"
+}
+
+//
+// Schema returns response data types.
+//
+func (Quotes) Schema() interface{} {
+	return quotes.Response{}
 }

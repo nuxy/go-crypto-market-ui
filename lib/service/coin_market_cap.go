@@ -10,32 +10,53 @@
 package service
 
 import (
+	"github.com/nuxy/go-crypto-market-ui/lib/common"
 	endpoint "github.com/nuxy/go-crypto-market-ui/lib/service/coin_market_cap"
 )
 
 //
-// ServiceInterface provides runtime methods.
+// CoinMarketCap declared data types.
 //
-type ServiceInterface interface {
-	URL(endpointName string) string
+type CoinMarketCap struct {
+	instance     common.EndpointInterface
+	endpointName string
 }
 
 //
-// CoinMarketCap declared data types.
+// Create a private service instance.
 //
-type CoinMarketCap struct {}
+func newCoinMarketCap(endpointName string) *CoinMarketCap {
+	service := &CoinMarketCap{}
+	service.endpointName = endpointName
+	service.init()
+	return service
+}
+
+//
+// Assign select endpoint interface.
+//
+func (service *CoinMarketCap) init() {
+	switch service.endpointName {
+	case "Quotes":
+		service.instance = (endpoint.Quotes{})
+		break
+	}
+}
 
 //
 // URL returns an unprocessed location.
 //
 func (CoinMarketCap) URL(endpointName string) string {
-	var rawURI string
+	service := newCoinMarketCap(endpointName)
 
-	switch endpointName {
-		case "Quotes":
-			rawURI = (endpoint.Quotes{}).URI()
-			break
-	}
+	return "https://pro-api.coinmarketcap.com/v1/" + service.instance.URI() + "&CMC_PRO_API_KEY=%s"
+}
 
-	return "https://pro-api.coinmarketcap.com/v1/" + rawURI + "&CMC_PRO_API_KEY=%s"
+//
+// Schema returns response data types a given endpoint.
+//
+func (CoinMarketCap) Schema(endpointName string) interface{} {
+	service := newCoinMarketCap(endpointName)
+
+	return service.instance.Schema()
 }

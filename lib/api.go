@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/nuxy/go-crypto-market-ui/lib/common"
 	"github.com/nuxy/go-crypto-market-ui/lib/service"
 )
 
@@ -30,7 +31,7 @@ type APIConfig struct {
 //
 type API struct {
 	Config       APIConfig
-	instance     service.ServiceInterface
+	instance     common.ServiceInterface
 	endpointName string
 }
 
@@ -50,9 +51,9 @@ func NewAPI(config APIConfig, endpointName string) *API {
 //
 func (api *API) init() {
 	switch api.Config.Name {
-		case "CoinMarketCap":
-			api.instance = (service.CoinMarketCap{})
-			break
+	case "CoinMarketCap":
+		api.instance = (service.CoinMarketCap{})
+		break
 	}
 }
 
@@ -64,4 +65,11 @@ func (api *API) URL() string {
 	symbols := strings.Join(api.Config.Symbols, ",")
 
 	return fmt.Sprintf(rawURL, symbols, api.Config.APIKey)
+}
+
+//
+// TODO: Convert from struct.
+//
+func (api *API) Schema() string {
+	return ``
 }
