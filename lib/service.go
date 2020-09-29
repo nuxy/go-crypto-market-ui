@@ -9,13 +9,19 @@
 
 package lib
 
+import (
+	"fmt"
+	"strings"
+
+	api "github.com/nuxy/go-crypto-market-ui/lib/service"
+)
+
 //
 // ServiceConfig declared data types.
 //
 type ServiceConfig struct {
 	Name    string   `json:"name"`
 	APIKey  string   `json:"apiKey"`
-	URL     string   `json:"url"`
 	Symbols []string `json:"symbols"`
 }
 
@@ -23,21 +29,39 @@ type ServiceConfig struct {
 // Service declared data types.
 //
 type Service struct {
-	Config ServiceConfig
+	Config       ServiceConfig
+	instance     api.Service
+	endpointName string
 }
 
 //
 // NewService creates a new service instance.
 //
-func NewService(config ServiceConfig) *Service {
+func NewService(config ServiceConfig, endpointName string) *Service {
 	service := &Service{}
-	service.Config = config
+	service.Config       = config
+	service.endpointName = endpointName
+	service.init()
 	return service
 }
 
 //
-// URL returns a valid resource identifier.
+// Assigns selected runtime interface.
+//
+func (service *Service) init() {
+	switch service.Config.Name {
+		case "CoinMarketCap":
+			service.instance = (api.CoinMarketCap{})
+			break
+	}
+}
+
+//
+// URL returns as constructed location.
 //
 func (service *Service) URL() string {
-	return service.Config.URL
+	rawURL  := service.instance.URL(service.endpointName)
+	symbols := strings.Join(service.Config.Symbols, ",")
+
+	return fmt.Sprintf(rawURL, symbols, service.Config.APIKey)
 }

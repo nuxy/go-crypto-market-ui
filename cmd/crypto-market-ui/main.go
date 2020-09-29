@@ -23,7 +23,7 @@ func main() {
 	// TODO: Support multiple services.
 	config := lib.NewConfig("CoinMarketCap")
 
-	service := lib.NewService(config.Load())
+	service := lib.NewService(config.Load(), "Quotes")
 
 	request := lib.NewRequest(service)
 	results := request.Get()

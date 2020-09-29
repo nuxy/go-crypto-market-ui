@@ -26,7 +26,7 @@ type Service interface {
 type CoinMarketCap struct {}
 
 //
-// URL returns an unprocessed path.
+// URL returns an unprocessed location.
 //
 func (CoinMarketCap) URL(endpointName string) string {
 	var rawURI string

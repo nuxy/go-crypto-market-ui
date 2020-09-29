@@ -58,7 +58,6 @@ func (config *Config) create() {
 		{
 			Name:    ``,
 			APIKey:  ``,
-			URL:     ``,
 			Symbols: make([]string, 0),
 		},
 	}

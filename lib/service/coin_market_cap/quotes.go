@@ -22,7 +22,7 @@ type Endpoint interface {
 type Quotes struct{}
 
 //
-// URI returns an unprocessed resource.
+// URI returns an unprocessed path.
 //
 func (Quotes) URI() string {
 	return "cryptocurrency/quotes/latest?symbol=%s"
