@@ -14,9 +14,9 @@ import (
 )
 
 //
-// Service provides endpoint methods.
+// ServiceInterface provides runtime methods.
 //
-type Service interface {
+type ServiceInterface interface {
 	URL(endpointName string) string
 }
 

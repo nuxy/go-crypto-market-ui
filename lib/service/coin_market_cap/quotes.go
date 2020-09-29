@@ -10,9 +10,9 @@
 package coinmarketcap
 
 //
-// Endpoint provides runtime methods.
+// EndpointInterface provides runtime methods.
 //
-type Endpoint interface {
+type EndpointInterface interface {
 	URI() string
 }
 

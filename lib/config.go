@@ -21,7 +21,7 @@ import (
 // Config declared data types.
 //
 type Config struct {
-	ServiceConfig
+	APIConfig
 	file string
 }
 
@@ -38,7 +38,7 @@ func NewConfig(serviceName string) *Config {
 //
 // Load config file, or create when it doesn't exist.
 //
-func (config *Config) Load() ServiceConfig {
+func (config *Config) Load() APIConfig {
 	data, err := ioutil.ReadFile(config.file)
 
 	if err != nil {
@@ -54,7 +54,7 @@ func (config *Config) Load() ServiceConfig {
 func (config *Config) create() {
 
 	// TODO: Add default values.
-	services := []ServiceConfig{
+	apis := []APIConfig{
 		{
 			Name:    ``,
 			APIKey:  ``,
@@ -62,7 +62,7 @@ func (config *Config) create() {
 		},
 	}
 
-	data, err := json.Marshal(services)
+	data, err := json.Marshal(apis)
 
 	if err != nil {
 		log.Fatal("Cannot encode ", err)
@@ -73,9 +73,9 @@ func (config *Config) create() {
 
 //
 // Parse the configuration JSON key/value pairs.
-//
-func (config *Config) read(data []byte) ServiceConfig {
-	results := []ServiceConfig{}
+///
+func (config *Config) read(data []byte) APIConfig {
+	results := []APIConfig{}
 
 	err := json.Unmarshal(data, &results)
 
@@ -83,18 +83,18 @@ func (config *Config) read(data []byte) ServiceConfig {
 		log.Fatal("Cannot decode ", err)
 	}
 
-	var service ServiceConfig
+	var api APIConfig
 
 	for i := 0; i < len(results); i++ {
-		service = results[i]
+		api = results[i]
 
-		if service.Name == config.Name {
+		if api.Name == config.Name {
 			break
 		}
 	}
 
 	// Return struct reference.
-	return service
+	return api
 }
 
 //

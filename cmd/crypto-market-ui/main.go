@@ -23,9 +23,9 @@ func main() {
 	// TODO: Support multiple services.
 	config := lib.NewConfig("CoinMarketCap")
 
-	service := lib.NewService(config.Load(), "Quotes")
+	api := lib.NewAPI(config.Load(), "Quotes")
 
-	request := lib.NewRequest(service)
+	request := lib.NewRequest(api)
 	results := request.Get()
 
 	fmt.Println(results)

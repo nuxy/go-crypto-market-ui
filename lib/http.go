@@ -19,16 +19,16 @@ import (
 // Request declared data types.
 //
 type Request struct {
-	service *Service
-	Error   interface{}
+	api    *API
+	Error  interface{}
 }
 
 //
 // NewRequest creates a new request instance.
 //
-func NewRequest(service *Service) *Request {
+func NewRequest(api *API) *Request {
 	request := &Request{}
-	request.service = service
+	request.api = api
 	return request
 }
 
@@ -42,7 +42,7 @@ func (request *Request) Get() (self *Request) {
 		request.Error = recover()
 	}()
 
-	resp, err := http.Get(request.service.URL())
+	resp, err := http.Get(request.api.URL())
 
 	if err != nil {
 		log.Fatal(err)
