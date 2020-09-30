@@ -18,36 +18,29 @@ import (
 // CoinMarketCap declared data types.
 //
 type CoinMarketCap struct {
-	instance     common.EndpointInterface
-	endpointName string
+	instance common.EndpointInterface
 }
 
 //
-// Create a private service instance.
+// Assign interface for a given endpoint.
 //
-func newCoinMarketCap(endpointName string) *CoinMarketCap {
+func assignInterface(endpointName string) *CoinMarketCap {
 	service := &CoinMarketCap{}
-	service.endpointName = endpointName
-	service.init()
-	return service
-}
 
-//
-// Assign select endpoint interface.
-//
-func (service *CoinMarketCap) init() {
-	switch service.endpointName {
+	switch endpointName {
 	case "Quotes":
 		service.instance = (endpoint.Quotes{})
 		break
 	}
+
+	return service
 }
 
 //
 // URL returns an unprocessed location.
 //
 func (CoinMarketCap) URL(endpointName string) string {
-	service := newCoinMarketCap(endpointName)
+	service := assignInterface(endpointName)
 
 	return "https://pro-api.coinmarketcap.com/v1/" + service.instance.URI() + "&CMC_PRO_API_KEY=%s"
 }
@@ -56,7 +49,7 @@ func (CoinMarketCap) URL(endpointName string) string {
 // Schema returns response data types a given endpoint.
 //
 func (CoinMarketCap) Schema(endpointName string) interface{} {
-	service := newCoinMarketCap(endpointName)
+	service := assignInterface(endpointName)
 
 	return service.instance.Schema()
 }

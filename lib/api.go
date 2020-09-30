@@ -42,14 +42,14 @@ func NewAPI(config APIConfig, endpointName string) *API {
 	api := &API{}
 	api.Config       = config
 	api.endpointName = endpointName
-	api.init()
+	api.assignInterface()
 	return api
 }
 
 //
 // Assigns selected runtime interface.
 //
-func (api *API) init() {
+func (api *API) assignInterface() {
 	switch api.Config.Name {
 	case "CoinMarketCap":
 		api.instance = (service.CoinMarketCap{})
@@ -61,15 +61,26 @@ func (api *API) init() {
 // URL returns as constructed location.
 //
 func (api *API) URL() string {
-	rawURL  := api.instance.URL(api.endpointName)
-	symbols := strings.Join(api.Config.Symbols, ",")
-
-	return fmt.Sprintf(rawURL, symbols, api.Config.APIKey)
+	return fmt.Sprintf(api.rawURL(), api.symbols(), api.Config.APIKey)
 }
 
 //
-// TODO: Convert from struct.
+// Schema returns response data types.
 //
-func (api *API) Schema() string {
-	return ``
+func (api *API) Schema() interface{} {
+	return api.instance.Schema(api.endpointName)
+}
+
+//
+// Returns the endpoint defined raw URL.
+//
+func (api *API) rawURL() string {
+	return api.instance.URL(api.endpointName)
+}
+
+//
+// Returns configuration defined Symbols.
+//
+func (api *API) symbols() string {
+	return strings.Join(api.Config.Symbols, ",")
 }
