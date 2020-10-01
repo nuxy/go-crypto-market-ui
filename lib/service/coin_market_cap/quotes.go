@@ -34,8 +34,8 @@ func (Quotes) URI() string {
 }
 
 //
-// Schema returns response data types.
+// Parse returns API response body data.
 //
-func (Quotes) Schema() interface{} {
-	return quotes.Response{}
+func (Quotes) Parse(body []byte) interface{} {
+	return quotes.Parse(body)
 }

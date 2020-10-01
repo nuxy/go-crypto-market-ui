@@ -46,10 +46,10 @@ func (CoinMarketCap) URL(endpointName string) string {
 }
 
 //
-// Schema returns response data types a given endpoint.
+// Parse returns API response body data a given endpoint.
 //
-func (CoinMarketCap) Schema(endpointName string) interface{} {
+func (CoinMarketCap) Parse(endpointName string, body []byte) interface{} {
 	service := assignInterface(endpointName)
 
-	return service.instance.Schema()
+	return service.instance.Parse(body)
 }

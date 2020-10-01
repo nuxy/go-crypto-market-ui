@@ -13,14 +13,14 @@ package common
 // ServiceInterface provides runtime methods.
 //
 type ServiceInterface interface {
-	URL   (endpointName string) string
-	Schema(endpointName string) interface{}
+	URL  (endpointName string) string
+	Parse(endpointName string, body []byte) interface{}
 }
 
 //
 // EndpointInterface provides runtime methods.
 //
 type EndpointInterface interface {
-	URI()    string
-	Schema() interface{}
+	URI()      string
+	Parse(body []byte) interface{}
 }

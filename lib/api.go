@@ -65,10 +65,10 @@ func (api *API) URL() string {
 }
 
 //
-// Schema returns response data types.
+// Parse returns API response body data.
 //
-func (api *API) Schema() interface{} {
-	return api.instance.Schema(api.endpointName)
+func (api *API) Parse(body []byte) interface{} {
+	return api.instance.Parse(api.endpointName, body)
 }
 
 //

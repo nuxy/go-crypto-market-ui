@@ -13,6 +13,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 //
@@ -35,14 +36,16 @@ func NewRequest(api *API) *Request {
 //
 // Get fetches data from a remote resource.
 //
-func (request *Request) Get() (self *Request) {
-	self = request
-
+func (request *Request) Get() interface{} {
 	defer func() {
 		request.Error = recover()
 	}()
 
-	resp, err := http.Get(request.api.URL())
+	url := request.api.URL()
+
+	request.validateURL(url)
+
+	resp, err := http.Get(url)
 
 	if err != nil {
 		log.Fatal(err)
@@ -56,7 +59,16 @@ func (request *Request) Get() (self *Request) {
 		log.Fatal(err)
 	}
 
-	fmt.Println(body)
+	return request.api.Parse(body)
+}
 
-	return request
+//
+// Checks for a valid URL structure, fail otherwise.
+//
+func (request *Request) validateURL(rawURL string) {
+	_, err := url.ParseRequestURI(rawURL)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
