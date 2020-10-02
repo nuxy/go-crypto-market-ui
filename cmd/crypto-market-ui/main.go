@@ -10,8 +10,7 @@
 package main
 
 import(
-	"fmt"
-
+	terminal "github.com/nuxy/go-crypto-market-ui"
 	"github.com/nuxy/go-crypto-market-ui/lib"
 )
 
@@ -23,10 +22,5 @@ func main() {
 	// TODO: Support multiple services.
 	config := lib.NewConfig("CoinMarketCap")
 
-	api := lib.NewAPI(config.Load(), "Quotes")
-
-	request := lib.NewRequest(api)
-	results := request.Get()
-
-	fmt.Println(results)
+	terminal.Init(config.Load())
 }
