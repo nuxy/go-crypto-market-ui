@@ -11,6 +11,7 @@ package cryptomarketui
 
 import (
 	"log"
+	"time"
 
 	ui "github.com/gizak/termui/v3"
 
@@ -22,16 +23,44 @@ import (
 // Init creates a new terminal instance.
 //
 func Init(config lib.APIConfig) {
+	ticker := time.NewTicker(config.RefreshRate * time.Second).C
+
 	if err := ui.Init(); err != nil {
 		log.Fatal("Failed to initialize terminal ", err)
 	}
 
 	defer ui.Close()
 
-	// Fetch the data
+	// Initialize widgets.
+	renderQuotes(config)
+
+	// Listen for events.
+	uiEvents := ui.PollEvents()
+
+	for {
+		select {
+		case e := <-uiEvents:
+			switch e.ID {
+
+			// Close the terminal.
+			case "<Escape>":
+				return
+			}
+
+		case <-ticker:
+			renderQuotes(config)
+		}
+	}
+}
+
+//
+// Request Quotes and render widget.
+//
+func renderQuotes(config lib.APIConfig) {
 	api := lib.NewAPI(config, "Quotes")
 
 	request := lib.NewRequest(api)
 
-	widgets.NewWidget(request.Get())
+	widget := widgets.NewQuotes(request.Get())
+	widget.Render()
 }

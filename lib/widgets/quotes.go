@@ -19,26 +19,26 @@ import (
 )
 
 // Widget properties.
-const propTitle  string = "Quotes"
-const propLeft   int    = 1
-const propRight  int    = 145
-const propTop    int    = 1
-const propBottom int    = 8
+const propTitle  string   = "Quotes"
+const propLeft   int      = 1
+const propRight  int      = 145
+const propTop    int      = 1
+const propBottom int      = 8
+const propStyle  ui.Color = ui.ColorYellow
 
 //
-// Widget declared data types.
+// Quotes declared data types.
 //
-type Widget struct {
+type Quotes struct {
 	Data interface{}
 }
 
 //
-// NewWidget creates a new widget instance.
+// NewQuotes creates a new widget instance.
 //
-func NewWidget(data interface{}) *Widget {
-	widget := &Widget{}
+func NewQuotes(data interface{}) *Quotes {
+	widget := &Quotes{}
 	widget.Data = data
-	widget.render()
 	return widget
 }
 
@@ -49,7 +49,7 @@ func (widget *Widget) render() {
 	obj := widgets.NewList()
 	obj.Title         = propTitle
 	obj.Rows          = widget.build()
-	obj.TextStyle     = ui.NewStyle(ui.ColorYellow)
+	obj.TextStyle     = ui.NewStyle(propStyle)
 	obj.PaddingLeft   = 1
 	obj.PaddingTop    = 1
 	obj.PaddingRight  = 1
@@ -80,7 +80,7 @@ func (widget *Widget) render() {
 //
 // Builds result rows list.
 //
-func (widget Widget) build() []string {
+func (widget Quotes) build() []string {
 	header := counter("#") + symbol("Ticker") + name("Name") + price("Price") + marketCap("Market Cap") + volume24h("24h Volume") + totalSupply("Total Supply") + percentChange("% Change (1h)") + percentChange("% Change (24h)") + percentChange("% Change (1d)")
 
 	rows := []string{header}

@@ -12,6 +12,7 @@ package lib
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/nuxy/go-crypto-market-ui/lib/common"
 	"github.com/nuxy/go-crypto-market-ui/lib/service"
@@ -21,9 +22,10 @@ import (
 // APIConfig declared data types.
 //
 type APIConfig struct {
-	Name    string   `json:"name"`
-	APIKey  string   `json:"apiKey"`
-	Symbols []string `json:"symbols"`
+	Name        string        `json:"name"`
+	APIKey      string        `json:"apiKey"`
+	Symbols     []string      `json:"symbols"`
+	RefreshRate time.Duration `json:"refreshRate"`
 }
 
 //
