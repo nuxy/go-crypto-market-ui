@@ -54,7 +54,7 @@ func Init(config lib.APIConfig) {
 }
 
 //
-// Request Quotes and render widget.
+// Requests Quotes and renders widget.
 //
 func renderQuotes(config lib.APIConfig) {
 	api := lib.NewAPI(config, "Quotes")
