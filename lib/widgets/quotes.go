@@ -24,7 +24,7 @@ const propLeft   int      = 1
 const propRight  int      = 145
 const propTop    int      = 1
 const propBottom int      = 8
-const propStyle  ui.Color = ui.ColorYellow
+const propText   ui.Color = ui.ColorYellow
 
 //
 // Quotes declared data types.
@@ -43,13 +43,13 @@ func NewQuotes(data interface{}) *Quotes {
 }
 
 //
-// Render the terminal widget.
+// Render the widget.
 //
-func (widget *Widget) render() {
+func (widget *Quotes) render() {
 	obj := widgets.NewList()
 	obj.Title         = propTitle
 	obj.Rows          = widget.build()
-	obj.TextStyle     = ui.NewStyle(propStyle)
+	obj.TextStyle     = ui.NewStyle(propText)
 	obj.PaddingLeft   = 1
 	obj.PaddingTop    = 1
 	obj.PaddingRight  = 1
@@ -80,7 +80,7 @@ func (widget *Widget) render() {
 //
 // Builds result rows list.
 //
-func (widget Quotes) build() []string {
+func (widget *Quotes) build() []string {
 	header := counter("#") + symbol("Ticker") + name("Name") + price("Price") + marketCap("Market Cap") + volume24h("24h Volume") + totalSupply("Total Supply") + percentChange("% Change (1h)") + percentChange("% Change (24h)") + percentChange("% Change (1d)")
 
 	rows := []string{header}
@@ -92,6 +92,13 @@ func (widget Quotes) build() []string {
 	}
 
 	return rows
+}
+
+//
+// Returns termui style instance.
+//
+func (Quotes) style(color ui.Color) ui.Style {
+	return ui.NewStyle(color)
 }
 
 //

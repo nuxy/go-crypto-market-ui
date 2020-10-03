@@ -20,21 +20,42 @@ import (
 )
 
 //
-// Init creates a new terminal instance.
+// Terminal declared data types.
 //
-func Init(config lib.APIConfig) {
-	ticker := time.NewTicker(config.RefreshRate * time.Second).C
+type Terminal struct {
+	Config lib.APIConfig
+}
 
+//
+// NewTerminal creates a new terminal instance.
+//
+func NewTerminal(config lib.APIConfig) *Terminal {
+	terminal := &Terminal{}
+	terminal.Config = config
+	terminal.initWidgets()
+	terminal.initEvents()
+	return terminal
+}
+
+//
+// Initialize terminal widgets.
+//
+func (terminal *Terminal) initWidgets() {
 	if err := ui.Init(); err != nil {
 		log.Fatal("Failed to initialize terminal ", err)
 	}
 
+	terminal.renderQuotes()
+}
+
+//
+// Initialize terminal events.
+//
+func (terminal *Terminal) initEvents() {
 	defer ui.Close()
 
-	// Initialize widgets.
-	renderQuotes(config)
+	ticker := time.NewTicker(terminal.Config.RefreshRate * time.Second).C
 
-	// Listen for events.
 	uiEvents := ui.PollEvents()
 
 	for {
@@ -48,7 +69,7 @@ func Init(config lib.APIConfig) {
 			}
 
 		case <-ticker:
-			renderQuotes(config)
+			terminal.renderQuotes()
 		}
 	}
 }
@@ -56,11 +77,12 @@ func Init(config lib.APIConfig) {
 //
 // Requests Quotes and renders widget.
 //
-func renderQuotes(config lib.APIConfig) {
-	api := lib.NewAPI(config, "Quotes")
+func (terminal *Terminal) renderQuotes() {
+	api := lib.NewAPI(terminal.Config, "Quotes")
 
 	request := lib.NewRequest(api)
+	results := request.Get()
 
-	widget := widgets.NewQuotes(request.Get())
+	widget := widgets.NewQuotes(results, terminal.Config.Currency)
 	widget.Render()
 }
