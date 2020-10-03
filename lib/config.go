@@ -52,15 +52,7 @@ func (config *Config) Load() APIConfig {
 // Create the locally hosted configuration file.
 //
 func (config *Config) create() {
-
-	// TODO: Add default values.
-	apis := []APIConfig{
-		{
-			Name:    ``,
-			APIKey:  ``,
-			Symbols: make([]string, 0),
-		},
-	}
+	apis := []APIConfig{}
 
 	data, err := json.Marshal(apis)
 
