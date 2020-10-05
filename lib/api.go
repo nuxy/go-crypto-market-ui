@@ -24,6 +24,7 @@ import (
 type APIConfig struct {
 	Name        string        `json:"name"`
 	APIKey      string        `json:"apiKey"`
+	Currency    string        `json:"currency"`
 	Symbols     []string      `json:"symbols"`
 	RefreshRate time.Duration `json:"refreshRate"`
 }

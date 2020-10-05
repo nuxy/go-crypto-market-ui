@@ -15,6 +15,7 @@ import (
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 
+	"github.com/nuxy/go-crypto-market-ui/lib/common"
 	"github.com/nuxy/go-crypto-market-ui/lib/results"
 )
 
@@ -26,19 +27,33 @@ const propTop    int      = 1
 const propBottom int      = 8
 const propText   ui.Color = ui.ColorYellow
 
+// List item padding.
+const padCounter          int = 4
+const padSymbol           int = 9
+const padName             int = 14
+const padPrice            int = 12
+const padMarketCap        int = 19
+const padVolume24h        int = 18
+const padTotalSupply      int = 18
+const padPercentChange1h  int = 16
+const padPercentChange24h int = 16
+const padPercentChange7d  int = 10
+
 //
 // Quotes declared data types.
 //
 type Quotes struct {
-	Data interface{}
+	Currency *common.Currency
+	data     interface{}
 }
 
 //
 // NewQuotes creates a new widget instance.
 //
-func NewQuotes(data interface{}) *Quotes {
+func NewQuotes(data interface{}, currency string) *Quotes {
 	widget := &Quotes{}
-	widget.Data = data
+	widget.Currency = common.NewCurrency(currency)
+	widget.data     = data
 	return widget
 }
 
@@ -67,13 +82,19 @@ func (widget *Quotes) render() {
 	uiEvents := ui.PollEvents()
 
 	for {
-		e := <-uiEvents
-		switch e.ID {
-		case "<Escape>":
-			return
-		}
+		select {
+		case e := <-uiEvents:
+			switch e.ID {
 
-		ui.Render(obj)
+			// Scroll item down.
+			case "<Down>":
+				obj.ScrollDown()
+
+			// Scroll item up.
+			case "<Up>":
+				obj.ScrollUp()
+			}
+		}
 	}
 }
 
@@ -81,12 +102,14 @@ func (widget *Quotes) render() {
 // Builds result rows list.
 //
 func (widget *Quotes) build() []string {
-	header := counter("#") + symbol("Ticker") + name("Name") + price("Price") + marketCap("Market Cap") + volume24h("24h Volume") + totalSupply("Total Supply") + percentChange("% Change (1h)") + percentChange("% Change (24h)") + percentChange("% Change (1d)")
+
+	// TODO: Header text should be localized.
+	header := common.PadRgt("#", padCounter) + common.PadRgt("Ticker", padSymbol) + common.PadRgt("Name", padName) + common.PadRgt("Price", padPrice) + common.PadRgt("Market Cap", padMarketCap) + common.PadRgt("24h Volume", padVolume24h) + common.PadRgt("Total Supply", padTotalSupply) + common.PadRgt("% Change (1h)", padPercentChange1h) + common.PadRgt("% Change (24h)", padPercentChange24h) + common.PadRgt("% Change (7d)", padPercentChange7d)
 
 	rows := []string{header}
 
-	for i, v := range widget.Data.([]results.Quotes) {
-		row := counter(i + 1) + symbol(v.Symbol) + name(v.Name) + price(v.Price) + marketCap(v.MarketCap) + volume24h(v.Volume24h) + totalSupply(v.TotalSupply) + percentChange(v.PercentChange1h) + percentChange(v.PercentChange24h) + percentChange(v.PercentChange7d)
+	for i, v := range widget.data.([]results.Quotes) {
+		row := common.PadRgt(i + 1, padCounter) + common.PadRgt(v.Symbol, padSymbol) + common.PadRgt(v.Name, padName) + common.PadRgt(widget.price(v.Price), padPrice) + common.PadRgt(widget.marketCap(v.MarketCap), padMarketCap) + common.PadRgt(widget.volume24h(v.Volume24h), padVolume24h) + common.PadRgt(widget.totalSupply(v.TotalSupply), padTotalSupply) + common.PadRgt(widget.percentChange(v.PercentChange1h), padPercentChange1h) + common.PadRgt(widget.percentChange(v.PercentChange24h), padPercentChange24h) + common.PadRgt(widget.percentChange(v.PercentChange7d), padPercentChange7d)
 
 		rows = append(rows, row)
 	}
@@ -102,36 +125,24 @@ func (Quotes) style(color ui.Color) ui.Style {
 }
 
 //
-// Returns formatted column values.
+// Returns post-processed column values.
 //
-func counter(v interface{}) string {
-	return fmt.Sprintf("%-5v", v)
+func (widget Quotes) marketCap(v float64) string {
+	return widget.Currency.Format(v, 0)
 }
 
-func symbol(v interface{}) string {
-	return fmt.Sprintf("%-10v", v)
+func (widget Quotes) price(v float64) string {
+	return widget.Currency.Format(v, 2)
 }
 
-func name(v interface{}) string {
-	return fmt.Sprintf("%-12v", v)
+func (widget Quotes) volume24h(v float64) string {
+	return widget.Currency.Format(v, 0)
 }
 
-func price(v interface{}) string {
-	return fmt.Sprintf("%-13v", v)
+func (Quotes) percentChange(v float64) string {
+	return fmt.Sprintf("%.2f", v)
 }
 
-func marketCap(v interface{}) string {
-	return fmt.Sprintf("%-16v", v)
-}
-
-func volume24h(v interface{}) string {
-	return fmt.Sprintf("%-16v", v)
-}
-
-func percentChange(v interface{}) string {
-	return fmt.Sprintf("%-16v", v)
-}
-
-func totalSupply(v interface{}) string {
-	return fmt.Sprintf("%-16v", v)
+func (Quotes) totalSupply(v int64) string {
+	return common.FormatCommas(v)
 }

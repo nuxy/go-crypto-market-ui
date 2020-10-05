@@ -44,12 +44,12 @@ func (currency *Currency) IsValid() bool {
 //
 // Format returns formatted currency value.
 //
-func (currency *Currency) Format(v float64) string {
+func (currency *Currency) Format(v float64, precision int) string {
 	symbol := currency.load()
 
 	ac := accounting.Accounting{
 		Symbol:    symbol,
-		Precision: 2,
+		Precision: precision,
 	}
 
 	return ac.FormatMoney(v)
