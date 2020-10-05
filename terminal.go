@@ -45,6 +45,8 @@ func (terminal *Terminal) initWidgets() {
 		log.Fatal("Failed to initialize terminal ", err)
 	}
 
+	ui.Clear()
+
 	terminal.renderQuotes()
 }
 
@@ -66,10 +68,14 @@ func (terminal *Terminal) initEvents() {
 			// Close the terminal.
 			case "<Escape>":
 				return
+
+			// Resize the screen.
+			case "<Resize>":
+				terminal.initWidgets()
 			}
 
 		case <-ticker:
-			terminal.renderQuotes()
+			terminal.initWidgets()
 		}
 	}
 }
