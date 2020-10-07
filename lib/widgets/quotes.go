@@ -15,6 +15,7 @@ import (
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 
+	"github.com/nuxy/go-crypto-market-ui/lib"
 	"github.com/nuxy/go-crypto-market-ui/lib/common"
 	"github.com/nuxy/go-crypto-market-ui/lib/results"
 )
@@ -44,15 +45,16 @@ const padPercentChange7d  int = 10
 //
 type Quotes struct {
 	Currency *common.Currency
+	instance *widgets.List
 	data     interface{}
 }
 
 //
 // NewQuotes creates a new widget instance.
 //
-func NewQuotes(data interface{}, currency string) *Quotes {
+func NewQuotes(config lib.APIConfig, data interface{}) *Quotes {
 	widget := &Quotes{}
-	widget.Currency = common.NewCurrency(currency)
+	widget.Currency = common.NewCurrency(config.Currency)
 	widget.data     = data
 	return widget
 }
@@ -60,41 +62,46 @@ func NewQuotes(data interface{}, currency string) *Quotes {
 //
 // Render the widget.
 //
-func (widget *Quotes) render() {
-	obj := widgets.NewList()
-	obj.Title         = propTitle
-	obj.Rows          = widget.build()
-	obj.TextStyle     = ui.NewStyle(propText)
-	obj.PaddingLeft   = 1
-	obj.PaddingTop    = 1
-	obj.PaddingRight  = 1
-	obj.PaddingBottom = 1
+func (widget *Quotes) Render() {
+	var obj = widget.instance
 
-	obj.SetRect(
-		propLeft,
-		propTop,
-		propRight,
-		propBottom
-	)
+	if widget.instance == nil {
+		obj = widgets.NewList()
+		obj.Title         = propTitle
+		obj.TextStyle     = widget.style(propText)
+		obj.PaddingLeft   = 1
+		obj.PaddingTop    = 1
+		obj.PaddingRight  = 1
+		obj.PaddingBottom = 1
+
+		obj.SetRect(
+			propLeft,
+			propTop,
+			propRight,
+			propBottom
+		)
+
+		widget.instance = obj
+	}
+
+	obj.Rows = widget.build()
 
 	ui.Render(obj)
+}
 
-	uiEvents := ui.PollEvents()
+//
+// Events propagates keyboard actions.
+//
+func (widget *Quotes) Events(e ui.Event) {
+	switch e.ID {
 
-	for {
-		select {
-		case e := <-uiEvents:
-			switch e.ID {
+	// Scroll item down.
+	case "<Down>":
+		widget.instance.ScrollDown()
 
-			// Scroll item down.
-			case "<Down>":
-				obj.ScrollDown()
-
-			// Scroll item up.
-			case "<Up>":
-				obj.ScrollUp()
-			}
-		}
+	// Scroll item up.
+	case "<Up>":
+		widget.instance.ScrollUp()
 	}
 }
 

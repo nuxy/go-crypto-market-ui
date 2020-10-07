@@ -32,37 +32,31 @@ type Terminal struct {
 func NewTerminal(config lib.APIConfig) *Terminal {
 	terminal := &Terminal{}
 	terminal.Config = config
-	terminal.initWidgets()
-	terminal.initEvents()
+	terminal.init()
 	return terminal
 }
 
 //
 // Initialize terminal widgets.
 //
-func (terminal *Terminal) initWidgets() {
+func (terminal *Terminal) init() {
 	if err := ui.Init(); err != nil {
 		log.Fatal("Failed to initialize terminal ", err)
 	}
 
-	ui.Clear()
-
-	terminal.renderQuotes()
-}
-
-//
-// Initialize terminal events.
-//
-func (terminal *Terminal) initEvents() {
 	defer ui.Close()
 
 	ticker := time.NewTicker(terminal.Config.RefreshRate * time.Second).C
+
+	w1 := terminal.renderQuotes()
 
 	uiEvents := ui.PollEvents()
 
 	for {
 		select {
 		case e := <-uiEvents:
+			w1.Events(e)
+
 			switch e.ID {
 
 			// Close the terminal.
@@ -71,19 +65,21 @@ func (terminal *Terminal) initEvents() {
 
 			// Resize the screen.
 			case "<Resize>":
-				terminal.initWidgets()
+				w1.Render()
 			}
 
 		case <-ticker:
-			terminal.initWidgets()
+			w1.Render()
 		}
+
+		w1.Render()
 	}
 }
 
 //
 // Requests Quotes and renders widget.
 //
-func (terminal *Terminal) renderQuotes() {
+func (terminal *Terminal) renderQuotes() *widgets.Quotes {
 	api := lib.NewAPI(terminal.Config, "Quotes")
 
 	request := lib.NewRequest(api)
@@ -91,4 +87,5 @@ func (terminal *Terminal) renderQuotes() {
 
 	widget := widgets.NewQuotes(results, terminal.Config.Currency)
 	widget.Render()
+	return widget
 }
