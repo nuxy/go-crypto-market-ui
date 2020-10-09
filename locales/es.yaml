@@ -1,0 +1,9 @@
+Symbol:           Símbolo
+Name:             Nombre
+Price:            Precio
+MarketCap:        Cap. de Mercado
+Volume24h:        24h Volumen
+TotalSupply:      Suministro Total
+PercentChange1h:  "% Cambio (1h)"
+PercentChange24h: "% Cambio (2h)"
+PercentChange7d:  "% Cambio (7d)"

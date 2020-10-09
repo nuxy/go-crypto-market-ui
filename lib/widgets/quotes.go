@@ -45,6 +45,7 @@ const padPercentChange7d  int = 10
 //
 type Quotes struct {
 	Currency *common.Currency
+	Language *common.Language
 	instance *widgets.List
 	data     interface{}
 }
@@ -55,6 +56,7 @@ type Quotes struct {
 func NewQuotes(config lib.APIConfig, data interface{}) *Quotes {
 	widget := &Quotes{}
 	widget.Currency = common.NewCurrency(config.Currency)
+	widget.Language = common.NewLanguage(config.Language)
 	widget.data     = data
 	return widget
 }
@@ -109,9 +111,7 @@ func (widget *Quotes) Events(e ui.Event) {
 // Builds result rows list.
 //
 func (widget *Quotes) build() []string {
-
-	// TODO: Header text should be localized.
-	header := common.PadRgt("#", padCounter) + common.PadRgt("Ticker", padSymbol) + common.PadRgt("Name", padName) + common.PadRgt("Price", padPrice) + common.PadRgt("Market Cap", padMarketCap) + common.PadRgt("24h Volume", padVolume24h) + common.PadRgt("Total Supply", padTotalSupply) + common.PadRgt("% Change (1h)", padPercentChange1h) + common.PadRgt("% Change (24h)", padPercentChange24h) + common.PadRgt("% Change (7d)", padPercentChange7d)
+	header := common.PadRgt("#", padCounter) + common.PadRgt(widget.Language.Translate("Symbol"), padSymbol) + common.PadRgt(widget.Language.Translate("Name"), padName) + common.PadRgt(widget.Language.Translate("Price"), padPrice) + common.PadRgt(widget.Language.Translate("MarketCap"), padMarketCap) + common.PadRgt(widget.Language.Translate("Volume24h"), padVolume24h) + common.PadRgt(widget.Language.Translate("TotalSupply"), padTotalSupply) + common.PadRgt(widget.Language.Translate("PercentChange1h"), padPercentChange1h) + common.PadRgt(widget.Language.Translate("PercentChange24h"), padPercentChange24h) + common.PadRgt(widget.Language.Translate("PercentChange7d"), padPercentChange7d)
 
 	rows := []string{header}
 

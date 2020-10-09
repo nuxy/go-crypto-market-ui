@@ -25,6 +25,7 @@ type APIConfig struct {
 	Name        string        `json:"name"`
 	APIKey      string        `json:"apiKey"`
 	Currency    string        `json:"currency"`
+	Language    string        `json:"language"`
 	Symbols     []string      `json:"symbols"`
 	RefreshRate time.Duration `json:"refreshRate"`
 }

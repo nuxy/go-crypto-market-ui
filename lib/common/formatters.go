@@ -13,7 +13,7 @@ import (
 	"fmt"
 
 	"github.com/dustin/go-humanize"
-	"github.com/willf/pad"
+	pad "github.com/willf/pad/utf8"
 )
 
 //
