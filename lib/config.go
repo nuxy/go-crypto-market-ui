@@ -10,11 +10,12 @@
 package lib
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"log"
 	"os/user"
 	"path"
+
+	yaml "gopkg.in/yaml.v2"
 )
 
 //
@@ -31,7 +32,7 @@ type Config struct {
 func NewConfig(serviceName string) *Config {
 	config := &Config{}
 	config.Name = serviceName
-	config.file = config.filePath(".crypto-market-ui.json")
+	config.file = config.filePath(".crypto-market-ui.yml")
 	return config
 }
 
@@ -42,7 +43,9 @@ func (config *Config) Load() APIConfig {
 	data, err := ioutil.ReadFile(config.file)
 
 	if err != nil {
-		config.create()
+		var api APIConfig
+
+		config.create(api)
 	}
 
 	return config.read(data)
@@ -51,10 +54,13 @@ func (config *Config) Load() APIConfig {
 //
 // Create the locally hosted configuration file.
 //
-func (config *Config) create() {
-	apis := []APIConfig{}
+func (config *Config) create(api APIConfig) {
 
-	data, err := json.Marshal(apis)
+	// TODO: Support multiple services.
+	apis := [1]APIConfig{}
+	apis[0] = api
+
+	data, err := yaml.Marshal(&apis)
 
 	if err != nil {
 		log.Fatal("Cannot encode ", err)
@@ -64,12 +70,12 @@ func (config *Config) create() {
 }
 
 //
-// Parse the configuration JSON key/value pairs.
-///
+// Parse the configuration YAML key/value pairs.
+//
 func (config *Config) read(data []byte) APIConfig {
 	results := []APIConfig{}
 
-	err := json.Unmarshal(data, &results)
+	err := yaml.Unmarshal(data, &results)
 
 	if err != nil {
 		log.Fatal("Cannot decode ", err)
@@ -84,6 +90,8 @@ func (config *Config) read(data []byte) APIConfig {
 			break
 		}
 	}
+
+	config.create(api)
 
 	// Return struct reference.
 	return api

@@ -22,12 +22,12 @@ import (
 // APIConfig declared data types.
 //
 type APIConfig struct {
-	Name        string        `json:"name"`
-	APIKey      string        `json:"apiKey"`
-	Currency    string        `json:"currency"`
-	Language    string        `json:"language"`
-	Symbols     []string      `json:"symbols"`
-	RefreshRate time.Duration `json:"refreshRate"`
+	Name        string        `yaml:"service"`
+	APIKey      string        `yaml:"apiKey"`
+	Currency    string        `yaml:"currency"`
+	Language    string        `yaml:"language"`
+	Symbols     []string      `yaml:"symbols"`
+	RefreshRate time.Duration `yaml:"refreshRate"`
 }
 
 //
