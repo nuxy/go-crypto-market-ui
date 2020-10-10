@@ -21,24 +21,28 @@ import (
 )
 
 // Widget properties.
-const propTitle  string   = "Quotes"
-const propLeft   int      = 1
-const propRight  int      = 145
-const propTop    int      = 1
-const propBottom int      = 8
-const propText   ui.Color = ui.ColorYellow
+var quotesProp = common.Widget{
+	Title:     "Quotes",
+	Left:      1,
+	Top:       8,
+	Right:     145,
+	Bottom:    1,
+	TextColor: ui.ColorYellow,
+}
 
 // List item padding.
-const padCounter          int = 4
-const padSymbol           int = 9
-const padName             int = 14
-const padPrice            int = 12
-const padMarketCap        int = 19
-const padVolume24h        int = 18
-const padTotalSupply      int = 18
-const padPercentChange1h  int = 16
-const padPercentChange24h int = 16
-const padPercentChange7d  int = 10
+var quotesPad = map[string]int{
+	"Counter":          4,
+	"Symbol":           9,
+	"Name":             14,
+	"Price":            12,
+	"MarketCap":        19,
+	"Volume24h":        18,
+	"TotalSupply":      18,
+	"PercentChange1h":  16,
+	"PercentChange24h": 16,
+	"PercentChange7d":  10,
+}
 
 //
 // Quotes declared data types.
@@ -69,18 +73,18 @@ func (widget *Quotes) Render() {
 
 	if widget.instance == nil {
 		obj = widgets.NewList()
-		obj.Title         = propTitle
-		obj.TextStyle     = widget.style(propText)
+		obj.Title         = quotesProp.Title
+		obj.TextStyle     = widget.style(quotesProp.TextColor)
 		obj.PaddingLeft   = 1
 		obj.PaddingTop    = 1
 		obj.PaddingRight  = 1
 		obj.PaddingBottom = 1
 
 		obj.SetRect(
-			propLeft,
-			propTop,
-			propRight,
-			propBottom
+			quotesProp.Left,
+			quotesProp.Top,
+			quotesProp.Right,
+			quotesProp.Bottom,
 		)
 
 		widget.instance = obj
@@ -111,12 +115,12 @@ func (widget *Quotes) Events(e ui.Event) {
 // Builds result rows list.
 //
 func (widget *Quotes) build() []string {
-	header := common.PadRgt("#", padCounter) + common.PadRgt(widget.Language.Translate("Symbol"), padSymbol) + common.PadRgt(widget.Language.Translate("Name"), padName) + common.PadRgt(widget.Language.Translate("Price"), padPrice) + common.PadRgt(widget.Language.Translate("MarketCap"), padMarketCap) + common.PadRgt(widget.Language.Translate("Volume24h"), padVolume24h) + common.PadRgt(widget.Language.Translate("TotalSupply"), padTotalSupply) + common.PadRgt(widget.Language.Translate("PercentChange1h"), padPercentChange1h) + common.PadRgt(widget.Language.Translate("PercentChange24h"), padPercentChange24h) + common.PadRgt(widget.Language.Translate("PercentChange7d"), padPercentChange7d)
+	header := common.PadRgt("#", quotesPad["Counter"]) + common.PadRgt(widget.Language.Translate("Symbol"), quotesPad["Symbol"]) + common.PadRgt(widget.Language.Translate("Name"), quotesPad["Name"]) + common.PadRgt(widget.Language.Translate("Price"), quotesPad["Price"]) + common.PadRgt(widget.Language.Translate("MarketCap"), quotesPad["MarketCap"]) + common.PadRgt(widget.Language.Translate("Volume24h"), quotesPad["Volume24h"]) + common.PadRgt(widget.Language.Translate("TotalSupply"), quotesPad["TotalSupply"]) + common.PadRgt(widget.Language.Translate("PercentChange1h"), quotesPad["PercentChange1h"]) + common.PadRgt(widget.Language.Translate("PercentChange24h"), quotesPad["PercentChange24h"]) + common.PadRgt(widget.Language.Translate("PercentChange7d"), quotesPad["PercentChange7d"])
 
 	rows := []string{header}
 
 	for i, v := range widget.data.([]results.Quotes) {
-		row := common.PadRgt(i + 1, padCounter) + common.PadRgt(v.Symbol, padSymbol) + common.PadRgt(v.Name, padName) + common.PadRgt(widget.price(v.Price), padPrice) + common.PadRgt(widget.marketCap(v.MarketCap), padMarketCap) + common.PadRgt(widget.volume24h(v.Volume24h), padVolume24h) + common.PadRgt(widget.totalSupply(v.TotalSupply), padTotalSupply) + common.PadRgt(widget.percentChange(v.PercentChange1h), padPercentChange1h) + common.PadRgt(widget.percentChange(v.PercentChange24h), padPercentChange24h) + common.PadRgt(widget.percentChange(v.PercentChange7d), padPercentChange7d)
+		row := common.PadRgt(i + 1, quotesPad["Counter"]) + common.PadRgt(v.Symbol, quotesPad["Symbol"]) + common.PadRgt(v.Name, quotesPad["Name"]) + common.PadRgt(widget.price(v.Price), quotesPad["Price"]) + common.PadRgt(widget.marketCap(v.MarketCap), quotesPad["MarketCap"]) + common.PadRgt(widget.volume24h(v.Volume24h), quotesPad["Volume24h"]) + common.PadRgt(widget.totalSupply(v.TotalSupply), quotesPad["TotalSupply"]) + common.PadRgt(widget.percentChange(v.PercentChange1h), quotesPad["PercentChange1h"]) + common.PadRgt(widget.percentChange(v.PercentChange24h), quotesPad["PercentChange24h"]) + common.PadRgt(widget.percentChange(v.PercentChange7d), quotesPad["PercentChange7d"])
 
 		rows = append(rows, row)
 	}
