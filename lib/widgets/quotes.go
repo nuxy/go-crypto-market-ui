@@ -57,10 +57,10 @@ type Quotes struct {
 //
 // NewQuotes creates a new widget instance.
 //
-func NewQuotes(config lib.APIConfig, data interface{}) *Quotes {
+func NewQuotes(config *lib.Config, data interface{}) *Quotes {
 	widget := &Quotes{}
-	widget.Currency = common.NewCurrency(config.Currency)
-	widget.Language = common.NewLanguage(config.Language)
+	widget.Currency = common.NewCurrency(config.Currency())
+	widget.Language = common.NewLanguage(config.Language())
 	widget.data     = data
 	return widget
 }

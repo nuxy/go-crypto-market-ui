@@ -22,5 +22,5 @@ func main() {
 	// TODO: Support multiple services.
 	config := lib.NewConfig("CoinMarketCap")
 
-	ui.NewTerminal(config.Load())
+	ui.NewTerminal(config)
 }

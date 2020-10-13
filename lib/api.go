@@ -12,29 +12,16 @@ package lib
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/nuxy/go-crypto-market-ui/lib/common"
 	"github.com/nuxy/go-crypto-market-ui/lib/service"
 )
 
 //
-// APIConfig declared data types.
-//
-type APIConfig struct {
-	Name        string        `yaml:"service"`
-	APIKey      string        `yaml:"apiKey"`
-	Currency    string        `yaml:"currency"`
-	Language    string        `yaml:"language"`
-	Symbols     []string      `yaml:"symbols"`
-	RefreshRate time.Duration `yaml:"refreshRate"`
-}
-
-//
 // API declared data types.
 //
 type API struct {
-	Config       APIConfig
+	Config       *Config
 	instance     common.ServiceInterface
 	endpointName string
 }
@@ -42,7 +29,7 @@ type API struct {
 //
 // NewAPI creates a new service instance.
 //
-func NewAPI(config APIConfig, endpointName string) *API {
+func NewAPI(config *Config, endpointName string) *API {
 	api := &API{}
 	api.Config       = config
 	api.endpointName = endpointName
@@ -54,7 +41,7 @@ func NewAPI(config APIConfig, endpointName string) *API {
 // Assigns selected runtime interface.
 //
 func (api *API) assignInterface() {
-	switch api.Config.Name {
+	switch api.Config.Name() {
 	case "CoinMarketCap":
 		api.instance = (service.CoinMarketCap{})
 		break
@@ -65,7 +52,7 @@ func (api *API) assignInterface() {
 // URL returns as constructed location.
 //
 func (api *API) URL() string {
-	return fmt.Sprintf(api.rawURL(), api.symbols(), api.Config.APIKey)
+	return fmt.Sprintf(api.rawURL(), api.symbols(), api.Config.APIKey())
 }
 
 //
@@ -86,5 +73,5 @@ func (api *API) rawURL() string {
 // Returns configuration defined Symbols.
 //
 func (api *API) symbols() string {
-	return strings.Join(api.Config.Symbols, ",")
+	return strings.Join(api.Config.Symbols(), ",")
 }

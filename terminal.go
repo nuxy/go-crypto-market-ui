@@ -23,13 +23,13 @@ import (
 // Terminal declared data types.
 //
 type Terminal struct {
-	Config lib.APIConfig
+	Config *lib.Config
 }
 
 //
 // NewTerminal creates a new terminal instance.
 //
-func NewTerminal(config lib.APIConfig) *Terminal {
+func NewTerminal(config *lib.Config) *Terminal {
 	terminal := &Terminal{}
 	terminal.Config = config
 	terminal.init()
@@ -46,7 +46,7 @@ func (terminal *Terminal) init() {
 
 	defer ui.Close()
 
-	ticker := time.NewTicker(terminal.Config.RefreshRate * time.Second).C
+	ticker := time.NewTicker(terminal.Config.RefreshRate() * time.Second).C
 
 	w1 := terminal.renderQuotes()
 
