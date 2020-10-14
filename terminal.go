@@ -16,6 +16,7 @@ import (
 	ui "github.com/gizak/termui/v3"
 
 	"github.com/nuxy/go-crypto-market-ui/lib"
+	"github.com/nuxy/go-crypto-market-ui/lib/common"
 	"github.com/nuxy/go-crypto-market-ui/lib/widgets"
 )
 
@@ -23,7 +24,9 @@ import (
 // Terminal declared data types.
 //
 type Terminal struct {
-	Config *lib.Config
+	Config   *lib.Config
+	Currency *common.Currency
+	Language *common.Language
 }
 
 //
@@ -32,6 +35,8 @@ type Terminal struct {
 func NewTerminal(config *lib.Config) *Terminal {
 	terminal := &Terminal{}
 	terminal.Config = config
+	terminal.Currency = common.NewCurrency(config.Currency())
+	terminal.Language = common.NewLanguage(config.Language())
 	terminal.init()
 	return terminal
 }
@@ -46,16 +51,16 @@ func (terminal *Terminal) init() {
 
 	defer ui.Close()
 
-	ticker := time.NewTicker(terminal.Config.RefreshRate() * time.Second).C
+	ticker := time.NewTicker(time.Second).C
 
-	w1 := terminal.renderQuotes()
+	widget := terminal.renderQuotes()
 
 	uiEvents := ui.PollEvents()
 
 	for {
 		select {
 		case e := <-uiEvents:
-			w1.Events(e)
+			widget.Events(e)
 
 			switch e.ID {
 
@@ -65,27 +70,20 @@ func (terminal *Terminal) init() {
 
 			// Resize the screen.
 			case "<Resize>":
-				w1.Render()
+				widget.Render()
 			}
 
 		case <-ticker:
-			w1.Render()
+			widget.Render()
 		}
-
-		w1.Render()
 	}
 }
 
 //
-// Requests Quotes and renders widget.
+// Renders Quotes widget.
 //
 func (terminal *Terminal) renderQuotes() *widgets.Quotes {
-	api := lib.NewAPI(terminal.Config, "Quotes")
-
-	request := lib.NewRequest(api)
-	results := request.Get()
-
-	widget := widgets.NewQuotes(results, terminal.Config.Currency)
+	widget := widgets.NewQuotes(terminal.Config, terminal.Currency, terminal.Language)
 	widget.Render()
 	return widget
 }

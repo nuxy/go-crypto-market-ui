@@ -48,20 +48,20 @@ var quotesPad = map[string]int{
 // Quotes declared data types.
 //
 type Quotes struct {
+	Request  *lib.Request
 	Currency *common.Currency
 	Language *common.Language
 	instance *widgets.List
-	data     interface{}
 }
 
 //
 // NewQuotes creates a new widget instance.
 //
-func NewQuotes(config *lib.Config, data interface{}) *Quotes {
+func NewQuotes(config *lib.Config, currency *common.Currency, language *common.Language) *Quotes {
 	widget := &Quotes{}
-	widget.Currency = common.NewCurrency(config.Currency())
-	widget.Language = common.NewLanguage(config.Language())
-	widget.data     = data
+	widget.Request  = lib.NewRequest(lib.NewAPI(config, "Quotes"))
+	widget.Currency = currency
+	widget.Language = language
 	return widget
 }
 
@@ -119,7 +119,7 @@ func (widget *Quotes) build() []string {
 
 	rows := []string{header}
 
-	for i, v := range widget.data.([]results.Quotes) {
+	for i, v := range widget.Request.Get().([]results.Quotes) {
 		row := common.PadRgt(i + 1, quotesPad["Counter"]) + common.PadRgt(v.Symbol, quotesPad["Symbol"]) + common.PadRgt(v.Name, quotesPad["Name"]) + common.PadRgt(widget.price(v.Price), quotesPad["Price"]) + common.PadRgt(widget.marketCap(v.MarketCap), quotesPad["MarketCap"]) + common.PadRgt(widget.volume24h(v.Volume24h), quotesPad["Volume24h"]) + common.PadRgt(widget.totalSupply(v.TotalSupply), quotesPad["TotalSupply"]) + common.PadRgt(widget.percentChange(v.PercentChange1h), quotesPad["PercentChange1h"]) + common.PadRgt(widget.percentChange(v.PercentChange24h), quotesPad["PercentChange24h"]) + common.PadRgt(widget.percentChange(v.PercentChange7d), quotesPad["PercentChange7d"])
 
 		rows = append(rows, row)
