@@ -53,7 +53,8 @@ func (terminal *Terminal) init() {
 
 	ticker := time.NewTicker(time.Second).C
 
-	widget := terminal.renderQuotes()
+	//widget := terminal.renderQuotes()
+	widget := terminal.renderSetup()
 
 	uiEvents := ui.PollEvents()
 
@@ -77,6 +78,15 @@ func (terminal *Terminal) init() {
 			widget.Render()
 		}
 	}
+}
+
+//
+// Renders Setup widget.
+//
+func (terminal *Terminal) renderSetup() *widgets.Setup {
+	widget := widgets.NewSetup(terminal.Config, terminal.Language)
+	widget.Render()
+	return widget
 }
 
 //
