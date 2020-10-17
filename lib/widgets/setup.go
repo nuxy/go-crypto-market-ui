@@ -37,6 +37,7 @@ var setupProp = common.Widget{
 type Setup struct {
 	Config   *lib.Config
 	Language *common.Language
+	fields []*Field
 }
 
 //
@@ -77,10 +78,8 @@ func (widget *Setup) renderFields() {
 
 	// Widget properties.
 	var fieldProp = common.Widget{
-		Left:        setupProp.Left  + 2,
-		Right:       setupProp.Right - 2,
-		BorderColor: ui.ColorWhite,
-		TextColor:   ui.ColorWhite,
+		Left:  setupProp.Left  + 2,
+		Right: setupProp.Right - 2,
 	}
 
 	r := reflect.ValueOf(widget.Config.Options())
@@ -121,20 +120,56 @@ func (widget *Setup) renderFields() {
 		}
 
 		field := NewField(fieldProp, fmt.Sprintf("%v", value))
+
+		widget.fields = append(widget.fields, field)
+
 		field.Render()
 	}
+
+	widget.setActive()
 }
 
 //
 // Events propagates keyboard actions.
 //
 func (widget *Setup) Events(e ui.Event) {
+	for _, field := range widget.fields {
+		field.Events(e)
+	}
+
 	switch e.ID {
 
-	// TODO: Toggle active field.
+	// Toggle active field.
+	case "<Enter>":
+		widget.setActive()
+
 	case "<Tab>":
-		fmt.Println("Tab")
+		widget.setActive()
 	}
+}
+
+//
+// Sets the active (focused) field.
+//
+func (widget *Setup) setActive() {
+	var nextActive int
+
+	for i, field := range widget.fields {
+		active := field.Active()
+
+		if active {
+			field.Active(false)
+
+			nextActive = i + 1
+			break
+		}
+	}
+
+	if nextActive == len(widget.fields) {
+		nextActive = 0
+	}
+
+	widget.fields[nextActive].Active(true)
 }
 
 //
