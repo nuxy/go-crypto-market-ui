@@ -42,7 +42,7 @@ func NewTerminal(config *lib.Config) *Terminal {
 }
 
 //
-// Initialize terminal widgets.
+// Initializes termui widgets.
 //
 func (terminal *Terminal) init() {
 	if err := ui.Init(); err != nil {
@@ -51,12 +51,23 @@ func (terminal *Terminal) init() {
 
 	defer ui.Close()
 
-	ticker := time.NewTicker(time.Second).C
+	// Load the screens.
+	if terminal.Config.IsValid() {
+		terminal.loadMonitor()
+	} else {
+		terminal.loadSetup()
+	}
+}
 
-	//widget := terminal.renderQuotes()
-	widget := terminal.renderSetup()
+//
+// Loads the monitor screen.
+//
+func (terminal *Terminal) loadMonitor() {
+	widget := terminal.renderQuotes()
 
 	uiEvents := ui.PollEvents()
+
+	ticker := time.NewTicker(time.Second).C
 
 	for {
 		select {
@@ -76,6 +87,33 @@ func (terminal *Terminal) init() {
 
 		case <-ticker:
 			widget.Render()
+		}
+	}
+}
+
+//
+// Loads the setup screen.
+//
+func (terminal *Terminal) loadSetup() {
+	widget := terminal.renderSetup()
+
+	uiEvents := ui.PollEvents()
+
+	for {
+		select {
+		case e := <-uiEvents:
+			widget.Events(e)
+
+			switch e.ID {
+
+			// Close the terminal.
+			case "<Escape>":
+				return
+
+			// Resize the screen.
+			case "<Resize>":
+				widget.Render()
+			}
 		}
 	}
 }
