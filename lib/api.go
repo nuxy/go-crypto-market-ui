@@ -41,7 +41,7 @@ func NewAPI(config *Config, endpointName string) *API {
 // Assigns selected runtime interface.
 //
 func (api *API) assignInterface() {
-	switch api.Config.Name() {
+	switch api.Config.ServiceName() {
 	case "CoinMarketCap":
 		api.instance = (service.CoinMarketCap{})
 		break

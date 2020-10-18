@@ -22,7 +22,6 @@ import (
 
 // Widget properties.
 var setupProp = common.Widget{
-	Title:       "Setup",
 	Left:        50,
 	Top:         8,
 	Right:       95,
@@ -37,7 +36,7 @@ var setupProp = common.Widget{
 type Setup struct {
 	Config   *lib.Config
 	Language *common.Language
-	fields []*Field
+	fields   []*Field
 }
 
 //
@@ -55,7 +54,7 @@ func NewSetup(config *lib.Config, language *common.Language) *Setup {
 //
 func (widget *Setup) Render() {
 	obj := ui.NewBlock()
-	obj.Title       = setupProp.Title
+	obj.Title       = widget.Language.Translate("Configuration")
 	obj.BorderStyle = widget.style(setupProp.BorderColor)
 	obj.TitleStyle  = widget.style(setupProp.TextColor)
 
@@ -87,12 +86,12 @@ func (widget *Setup) renderFields() {
 	for i := 0; i < r.NumField(); i++ {
 		name := r.Type().Field(i).Name
 
-		fieldProp.Title = name 
+		fieldProp.Title = widget.Language.Translate(name)
 
 		value := r.Field(i).Interface()
 
 		switch name {
-		case "Name":
+		case "ServiceName":
 			fieldProp.Bottom = 13
 			fieldProp.Top    = 10
 

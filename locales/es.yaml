@@ -1,3 +1,17 @@
+#
+# Setup widget
+#
+Configuration:    Configuración
+ServiceName:      Nombre del Servicio
+APIKey:           API Key
+Currency:         Código de moneda
+Language:         Código de lenguaje
+Symbols:          Símbolos
+RefreshRate:      Frecuencia de actualización
+
+#
+# Quotes widget
+#
 Symbol:           Símbolo
 Name:             Nombre
 Price:            Precio
