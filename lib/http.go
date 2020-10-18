@@ -14,14 +14,17 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 //
 // Request declared data types.
 //
 type Request struct {
-	api    *API
-	Error  interface{}
+	API       *API
+	Error     interface{}
+	cacheBody []byte
+	cacheTime int64
 }
 
 //
@@ -29,21 +32,38 @@ type Request struct {
 //
 func NewRequest(api *API) *Request {
 	request := &Request{}
-	request.api = api
+	request.API = api
 	return request
 }
 
 //
-// Get fetches data from a remote resource.
+// Get data from a remote resource or cached response.
 //
 func (request *Request) Get() interface{} {
 	defer func() {
 		request.Error = recover()
 	}()
 
-	url := request.api.URL()
+	var body []byte
 
-	request.validateURL(url)
+	nextTime := request.cacheTime + request.API.Config.RefreshRate()
+
+	if time.Now().Unix() > nextTime {
+		body = request.fetchData()
+	} else {
+		body = request.cacheBody
+	}
+
+	return request.API.Parse(body)
+}
+
+//
+// Fetch data from remote resource and cache response.
+//
+func (request *Request) fetchData() []byte {
+	url := request.API.URL()
+
+	validateURL(url)
 
 	resp, err := http.Get(url)
 
@@ -59,16 +79,19 @@ func (request *Request) Get() interface{} {
 		log.Fatal(err)
 	}
 
-	return request.api.Parse(body)
+	request.cacheTime = time.Now().Unix()
+	request.cacheBody = body
+
+	return body
 }
 
 //
 // Checks for a valid URL structure, fail otherwise.
 //
-func (request *Request) validateURL(rawURL string) {
+func validateURL(rawURL string) {
 	_, err := url.ParseRequestURI(rawURL)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Invalid URL: ", err)
 	}
 }
