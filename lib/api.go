@@ -70,8 +70,16 @@ func (api *API) rawURL() string {
 }
 
 //
-// Returns configuration defined Symbols.
+// Returns config defined Symbols.
 //
 func (api *API) symbols() string {
-	return strings.Join(api.Config.Symbols(), ",")
+	items := api.Config.Symbols()
+
+	values := make([]string, 0, len(items))
+
+	for k := range items {
+		values = append(values, k)
+	}
+
+	return strings.Join(values, ",")
 }

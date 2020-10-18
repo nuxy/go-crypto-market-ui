@@ -12,7 +12,6 @@ package widgets
 import (
 	"fmt"
 	"reflect"
-	"strings"
 
 	ui "github.com/gizak/termui/v3"
 
@@ -25,7 +24,7 @@ var setupProp = common.Widget{
 	Left:        50,
 	Top:         8,
 	Right:       95,
-	Bottom:      35,
+	Bottom:      31,
 	BorderColor: ui.ColorWhite,
 	TextColor:   ui.ColorYellow,
 }
@@ -74,11 +73,14 @@ func (widget *Setup) Render() {
 // Render editable fields.
 //
 func (widget *Setup) renderFields() {
+	margin := 4
 
 	// Widget properties.
 	var fieldProp = common.Widget{
-		Left:  setupProp.Left  + 2,
-		Right: setupProp.Right - 2,
+		Left:   setupRect.Left  + margin / 2,
+		Top:    setupRect.Top   - margin / 2,
+		Right:  setupRect.Right - margin / 2,
+		Bottom: setupRect.Top   + 1,
 	}
 
 	r := reflect.ValueOf(widget.Config.Options())
@@ -86,37 +88,15 @@ func (widget *Setup) renderFields() {
 	for i := 0; i < r.NumField(); i++ {
 		name := r.Type().Field(i).Name
 
-		fieldProp.Title = widget.Language.Translate(name)
+		if name == "Symbols" {
+			continue
+		}
 
 		value := r.Field(i).Interface()
 
-		switch name {
-		case "ServiceName":
-			fieldProp.Bottom = 13
-			fieldProp.Top    = 10
-
-		case "APIKey":
-			fieldProp.Bottom = 17
-			fieldProp.Top    = 14
-
-		case "Currency":
-			fieldProp.Bottom = 21
-			fieldProp.Top    = 18
-
-		case "Language":
-			fieldProp.Bottom = 25
-			fieldProp.Top    = 22
-
-		case "Symbols":
-			fieldProp.Bottom = 29
-			fieldProp.Top    = 26
-
-			value = strings.Join(value.([]string), ",")
-
-		case "RefreshRate":
-			fieldProp.Bottom = 33
-			fieldProp.Top    = 30
-		}
+		fieldProp.Title   = widget.Language.Translate(name)
+		fieldProp.Top    += margin
+		fieldProp.Bottom += margin
 
 		field := NewField(fieldProp, fmt.Sprintf("%v", value))
 

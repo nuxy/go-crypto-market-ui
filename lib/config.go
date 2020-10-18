@@ -16,21 +16,35 @@ import (
 	"os/user"
 	"path"
 	"strconv"
-	"strings"
 
 	yaml "gopkg.in/yaml.v2"
 )
 
 //
+// ConfigHolding declared data types.
+//
+type ConfigHolding struct {
+	Units float64 `yaml:"units"`
+	Price float64 `yaml:"price"`
+}
+
+type symbol []ConfigHolding
+
+//
+// ConfigSymbol declared data types.
+//
+type ConfigSymbol map[string]symbol
+
+//
 // ConfigOpts declared data types.
 //
 type ConfigOpts struct {
-	ServiceName string   `yaml:"service"`
-	APIKey      string   `yaml:"apiKey"`
-	Currency    string   `yaml:"currency"`
-	Language    string   `yaml:"language"`
-	Symbols     []string `yaml:"symbols"`
-	RefreshRate int64    `yaml:"refreshRate"`
+	ServiceName string       `yaml:"service"`
+	APIKey      string       `yaml:"apiKey"`
+	Currency    string       `yaml:"currency"`
+	Language    string       `yaml:"language"`
+	RefreshRate int64        `yaml:"refreshRate"`
+	Symbols     ConfigSymbol `yaml:"symbols"`
 }
 
 //
@@ -103,17 +117,6 @@ func (config *Config) Language(v ...string) string {
 }
 
 //
-// Symbols sets/returns the option value.
-//
-func (config *Config) Symbols(v ...string) []string {
-	if len(v) == 1 {
-		config.options.Symbols = strings.Split(v[0], ",")
-	}
-
-	return config.options.Symbols
-}
-
-//
 // RefreshRate sets/returns the option value.
 //
 func (config *Config) RefreshRate(v ...string) int64 {
@@ -128,6 +131,17 @@ func (config *Config) RefreshRate(v ...string) int64 {
 	}
 
 	return config.options.RefreshRate
+}
+
+//
+// Symbols sets/returns the option value.
+//
+func (config *Config) Symbols(v ...ConfigSymbol) ConfigSymbol {
+	if len(v) == 1 {
+		config.options.Symbols = v[0]
+	}
+
+	return config.options.Symbols
 }
 
 //
@@ -172,7 +186,7 @@ func (config *Config) create() {
 			ServiceName: "CoinMarketCap",
 			Currency:    "USD",
 			Language:    "en",
-			Symbols:     []string{"BTC", "ETC", "LTC"},
+			Symbols:     ConfigSymbol{"BTC": make([]ConfigHolding, 1)},
 			RefreshRate: 15,
 		},
 	)
