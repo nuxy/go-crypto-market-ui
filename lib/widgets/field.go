@@ -140,7 +140,7 @@ func (widget *Field) delValue() {
 }
 
 //
-// Returns termui style instance.
+// Returns new termui style instance.
 //
 func (Field) style(color ui.Color) ui.Style {
 	return ui.NewStyle(color)

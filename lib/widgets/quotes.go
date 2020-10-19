@@ -21,13 +21,11 @@ import (
 )
 
 // Widget properties.
-var quotesProp = common.Widget{
-	Title:     "Quotes",
-	Left:      1,
-	Top:       8,
-	Right:     145,
-	Bottom:    1,
-	TextColor: ui.ColorYellow,
+var quotesRect = common.Widget{
+	Left:   1,
+	Top:    8,
+	Right:  145,
+	Bottom: 1,
 }
 
 // List item padding.
@@ -73,17 +71,19 @@ func (widget *Quotes) Render() {
 
 	if widget.instance == nil {
 		obj = widgets.NewList()
-		obj.TextStyle     = widget.style(quotesProp.TextColor)
+		obj.BorderStyle   = common.WidgetBorderStyle()
+		obj.TextStyle     = common.WidgetActiveStyle()
+		obj.TitleStyle    = common.WidgetTitleStyle()
 		obj.PaddingLeft   = 1
 		obj.PaddingTop    = 1
 		obj.PaddingRight  = 1
 		obj.PaddingBottom = 1
 
 		obj.SetRect(
-			quotesProp.Left,
-			quotesProp.Top,
-			quotesProp.Right,
-			quotesProp.Bottom,
+			quotesRect.Left,
+			quotesRect.Top,
+			quotesRect.Right,
+			quotesRect.Bottom,
 		)
 
 		widget.instance = obj
@@ -131,13 +131,6 @@ func (widget *Quotes) rows() []string {
 	}
 
 	return rows
-}
-
-//
-// Returns termui style instance.
-//
-func (Quotes) style(color ui.Color) ui.Style {
-	return ui.NewStyle(color)
 }
 
 //

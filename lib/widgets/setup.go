@@ -20,13 +20,11 @@ import (
 )
 
 // Widget properties.
-var setupProp = common.Widget{
-	Left:        50,
-	Top:         8,
-	Right:       95,
-	Bottom:      31,
-	BorderColor: ui.ColorWhite,
-	TextColor:   ui.ColorYellow,
+var setupRect = common.Widget{
+	Left:   50,
+	Top:    8,
+	Right:  95,
+	Bottom: 31,
 }
 
 //
@@ -54,14 +52,14 @@ func NewSetup(config *lib.Config, language *common.Language) *Setup {
 func (widget *Setup) Render() {
 	obj := ui.NewBlock()
 	obj.Title       = widget.Language.Translate("Configuration")
-	obj.BorderStyle = widget.style(setupProp.BorderColor)
-	obj.TitleStyle  = widget.style(setupProp.TextColor)
+	obj.BorderStyle = common.WidgetBorderStyle()
+	obj.TitleStyle  = common.WidgetTitleStyle()
 
 	obj.SetRect(
-		setupProp.Left,
-		setupProp.Top,
-		setupProp.Right,
-		setupProp.Bottom,
+		setupRect.Left,
+		setupRect.Top,
+		setupRect.Right,
+		setupRect.Bottom,
 	)
 
 	ui.Render(obj)
@@ -149,11 +147,4 @@ func (widget *Setup) setActive() {
 	}
 
 	widget.fields[nextActive].Active(true)
-}
-
-//
-// Returns termui style instance.
-//
-func (Setup) style(color ui.Color) ui.Style {
-	return ui.NewStyle(color)
 }

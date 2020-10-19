@@ -25,3 +25,24 @@ type Widget struct {
 	BorderColor ui.Color
 	TextColor   ui.Color
 }
+
+//
+// WidgetActiveStyle returns new termui style instance.
+//
+func WidgetActiveStyle() ui.Style {
+	return ui.NewStyle(ui.ColorYellow)
+}
+
+//
+// WidgetBorderStyle returns new termui style instance.
+//
+func WidgetBorderStyle() ui.Style {
+	return ui.NewStyle(ui.ColorWhite)
+}
+
+//
+// WidgetTitleStyle returns new termui style instance.
+//
+func WidgetTitleStyle() ui.Style {
+	return ui.NewStyle(ui.ColorBlack, ui.ColorWhite, ui.ModifierBold)
+}
