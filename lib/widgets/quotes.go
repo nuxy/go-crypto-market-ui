@@ -73,7 +73,6 @@ func (widget *Quotes) Render() {
 
 	if widget.instance == nil {
 		obj = widgets.NewList()
-		obj.Title         = quotesProp.Title
 		obj.TextStyle     = widget.style(quotesProp.TextColor)
 		obj.PaddingLeft   = 1
 		obj.PaddingTop    = 1
@@ -90,7 +89,8 @@ func (widget *Quotes) Render() {
 		widget.instance = obj
 	}
 
-	obj.Rows = widget.build()
+	obj.Title = widget.header()
+	obj.Rows  = widget.rows()
 
 	ui.Render(obj)
 }
@@ -112,12 +112,17 @@ func (widget *Quotes) Events(e ui.Event) {
 }
 
 //
-// Builds result rows list.
+// Returns results header.
 //
-func (widget *Quotes) build() []string {
-	header := common.PadRgt("#", quotesPad["Counter"]) + common.PadRgt(widget.Language.Translate("Symbol"), quotesPad["Symbol"]) + common.PadRgt(widget.Language.Translate("Name"), quotesPad["Name"]) + common.PadRgt(widget.Language.Translate("Price"), quotesPad["Price"]) + common.PadRgt(widget.Language.Translate("MarketCap"), quotesPad["MarketCap"]) + common.PadRgt(widget.Language.Translate("Volume24h"), quotesPad["Volume24h"]) + common.PadRgt(widget.Language.Translate("TotalSupply"), quotesPad["TotalSupply"]) + common.PadRgt(widget.Language.Translate("PercentChange1h"), quotesPad["PercentChange1h"]) + common.PadRgt(widget.Language.Translate("PercentChange24h"), quotesPad["PercentChange24h"]) + common.PadRgt(widget.Language.Translate("PercentChange7d"), quotesPad["PercentChange7d"])
+func (widget *Quotes) header() string {
+	return common.PadRgt("#", quotesPad["Counter"]) + common.PadRgt(widget.Language.Translate("Symbol"), quotesPad["Symbol"]) + common.PadRgt(widget.Language.Translate("Name"), quotesPad["Name"]) + common.PadRgt(widget.Language.Translate("Price"), quotesPad["Price"]) + common.PadRgt(widget.Language.Translate("MarketCap"), quotesPad["MarketCap"]) + common.PadRgt(widget.Language.Translate("Volume24h"), quotesPad["Volume24h"]) + common.PadRgt(widget.Language.Translate("TotalSupply"), quotesPad["TotalSupply"]) + common.PadRgt(widget.Language.Translate("PercentChange1h"), quotesPad["PercentChange1h"]) + common.PadRgt(widget.Language.Translate("PercentChange24h"), quotesPad["PercentChange24h"]) + common.PadRgt(widget.Language.Translate("PercentChange7d"), quotesPad["PercentChange7d"])
+}
 
-	rows := []string{header}
+//
+// Returns results rows.
+//
+func (widget *Quotes) rows() []string {
+	var rows []string
 
 	for i, v := range widget.Request.Get().([]results.Quotes) {
 		row := common.PadRgt(i + 1, quotesPad["Counter"]) + common.PadRgt(v.Symbol, quotesPad["Symbol"]) + common.PadRgt(v.Name, quotesPad["Name"]) + common.PadRgt(widget.price(v.Price), quotesPad["Price"]) + common.PadRgt(widget.marketCap(v.MarketCap), quotesPad["MarketCap"]) + common.PadRgt(widget.volume24h(v.Volume24h), quotesPad["Volume24h"]) + common.PadRgt(widget.totalSupply(v.TotalSupply), quotesPad["TotalSupply"]) + common.PadRgt(widget.percentChange(v.PercentChange1h), quotesPad["PercentChange1h"]) + common.PadRgt(widget.percentChange(v.PercentChange24h), quotesPad["PercentChange24h"]) + common.PadRgt(widget.percentChange(v.PercentChange7d), quotesPad["PercentChange7d"])
