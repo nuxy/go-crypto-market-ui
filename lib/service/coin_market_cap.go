@@ -28,6 +28,10 @@ func assignInterface(endpointName string) *CoinMarketCap {
 	service := &CoinMarketCap{}
 
 	switch endpointName {
+	case "Metadata":
+		service.instance = (endpoint.Metadata{})
+		break
+
 	case "Quotes":
 		service.instance = (endpoint.Quotes{})
 		break
