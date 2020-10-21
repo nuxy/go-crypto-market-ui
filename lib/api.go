@@ -22,7 +22,6 @@ import (
 //
 type API struct {
 	Config       *Config
-	instance     common.ServiceInterface
 	endpointName string
 }
 
@@ -33,19 +32,7 @@ func NewAPI(config *Config, endpointName string) *API {
 	api := &API{}
 	api.Config       = config
 	api.endpointName = endpointName
-	api.assignInterface()
 	return api
-}
-
-//
-// Assigns selected runtime interface.
-//
-func (api *API) assignInterface() {
-	switch api.Config.ServiceName() {
-	case "CoinMarketCap":
-		api.instance = (service.CoinMarketCap{})
-		break
-	}
 }
 
 //
@@ -59,14 +46,14 @@ func (api *API) URL() string {
 // Parse returns API response body data.
 //
 func (api *API) Parse(body []byte) interface{} {
-	return api.instance.Parse(api.endpointName, body)
+	return api.serviceInterface().Parse(api.endpointName, body)
 }
 
 //
 // Returns the endpoint defined raw URL.
 //
 func (api *API) rawURL() string {
-	return api.instance.URL(api.endpointName)
+	return api.serviceInterface().URL(api.endpointName)
 }
 
 //
@@ -82,4 +69,19 @@ func (api *API) symbols() string {
 	}
 
 	return strings.Join(values, ",")
+}
+
+//
+// Assigns runtime selected interface.
+//
+func (api *API) serviceInterface() common.ServiceInterface {
+	var instance common.ServiceInterface
+
+	switch api.Config.ServiceName() {
+	case "CoinMarketCap":
+		instance = (service.CoinMarketCap{})
+		break
+	}
+
+	return instance
 }

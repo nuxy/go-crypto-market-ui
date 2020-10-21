@@ -13,7 +13,7 @@ package common
 // ServiceInterface provides runtime methods.
 //
 type ServiceInterface interface {
-	URL  (endpointName string) string
+	URL  (endpointName string)              string
 	Parse(endpointName string, body []byte) interface{}
 }
 

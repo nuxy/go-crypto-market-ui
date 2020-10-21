@@ -14,14 +14,6 @@ import (
 )
 
 //
-// EndpointInterface provides runtime methods.
-//
-type EndpointInterface interface {
-	URI()    string
-	Schema() interface{}
-}
-
-//
 // Quotes declared data types.
 //
 type Quotes struct{}

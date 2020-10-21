@@ -17,43 +17,37 @@ import (
 //
 // CoinMarketCap declared data types.
 //
-type CoinMarketCap struct {
-	instance common.EndpointInterface
-}
-
-//
-// Assign interface for a given endpoint.
-//
-func assignInterface(endpointName string) *CoinMarketCap {
-	service := &CoinMarketCap{}
-
-	switch endpointName {
-	case "Metadata":
-		service.instance = (endpoint.Metadata{})
-		break
-
-	case "Quotes":
-		service.instance = (endpoint.Quotes{})
-		break
-	}
-
-	return service
-}
+type CoinMarketCap struct{}
 
 //
 // URL returns an unprocessed location.
 //
-func (CoinMarketCap) URL(endpointName string) string {
-	service := assignInterface(endpointName)
-
-	return "https://pro-api.coinmarketcap.com/v1/" + service.instance.URI() + "&CMC_PRO_API_KEY=%s"
+func (service CoinMarketCap) URL(endpointName string) string {
+	return "https://pro-api.coinmarketcap.com/v1/" + service.endpointInterface(endpointName).URI() + "&CMC_PRO_API_KEY=%s"
 }
 
 //
-// Parse returns API response body data a given endpoint.
+// Parse returns API response body data for a given endpoint.
 //
-func (CoinMarketCap) Parse(endpointName string, body []byte) interface{} {
-	service := assignInterface(endpointName)
+func (service CoinMarketCap) Parse(endpointName string, body []byte) interface{} {
+	return service.endpointInterface(endpointName).Parse(body)
+}
 
-	return service.instance.Parse(body)
+//
+// Assign runtime selected interface for a given endpoint.
+//
+func (service CoinMarketCap) endpointInterface(endpointName string) common.EndpointInterface {
+	var instance common.EndpointInterface
+
+	switch endpointName {
+	case "Metadata":
+		instance = (endpoint.Metadata{})
+		break
+
+	case "Quotes":
+		instance = (endpoint.Quotes{})
+		break
+	}
+
+	return instance
 }
