@@ -13,7 +13,6 @@ import (
 	"encoding/json"
 	"log"
 	"reflect"
-	"sort"
 
 	"github.com/nuxy/go-crypto-market-ui/lib/results"
 )
@@ -64,11 +63,6 @@ func Parse(body []byte) interface{} {
 
 		i++
 	}
-
-	// Sort unordered items.
-	sort.SliceStable(items, func(i, j int) bool {
-		return items[i].MarketCap > items[j].MarketCap
-	})
 
 	return items
 }

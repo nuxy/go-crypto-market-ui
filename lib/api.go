@@ -42,6 +42,13 @@ func (api *API) URL() string {
 }
 
 //
+// Parse returns API response body data.
+//
+func (api *API) Parse(body []byte) interface{} {
+	return api.serviceInterface().Parse(api.endpointName, body)
+}
+
+//
 // Returns the endpoint query parameters.
 //
 func (api *API) params() string {
@@ -66,13 +73,6 @@ func (api *API) params() string {
 	}
 
 	return strings.Join(params, "&")
-}
-
-//
-// Parse returns API response body data.
-//
-func (api *API) Parse(body []byte) interface{} {
-	return api.serviceInterface().Parse(api.endpointName, body)
 }
 
 //

@@ -11,6 +11,8 @@ package widgets
 
 import (
 	"fmt"
+	"sort"
+	"strings"
 
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
@@ -28,20 +30,6 @@ var quotesRect = common.Widget{
 	Bottom: 1,
 }
 
-// List item padding.
-var quotesPad = map[string]int{
-	"Counter":          4,
-	"Symbol":           9,
-	"Name":             14,
-	"Price":            12,
-	"MarketCap":        19,
-	"Volume24h":        18,
-	"TotalSupply":      18,
-	"PercentChange1h":  16,
-	"PercentChange24h": 16,
-	"PercentChange7d":  10,
-}
-
 //
 // Quotes declared data types.
 //
@@ -50,6 +38,8 @@ type Quotes struct {
 	Currency *common.Currency
 	Language *common.Language
 	instance *widgets.List
+	sortCol  string
+	sortDir  string
 }
 
 //
@@ -60,6 +50,7 @@ func NewQuotes(config *lib.Config, currency *common.Currency, language *common.L
 	widget.Request  = lib.NewRequest(lib.NewAPI(config, "Quotes"))
 	widget.Currency = currency
 	widget.Language = language
+	widget.sortCol  = "MarketCap"
 	return widget
 }
 
@@ -101,6 +92,17 @@ func (widget *Quotes) Render() {
 func (widget *Quotes) Events(e ui.Event) {
 	switch e.ID {
 
+	// Sort by column.
+	case "1": widget.sortByCol("Symbol")
+	case "2": widget.sortByCol("Name")
+	case "3": widget.sortByCol("Price")
+	case "4": widget.sortByCol("MarketCap")
+	case "5": widget.sortByCol("Volume24h")
+	case "6": widget.sortByCol("TotalSupply")
+	case "7": widget.sortByCol("PercentChange1h")
+	case "8": widget.sortByCol("PercentChange24h")
+	case "9": widget.sortByCol("PercentChange7d")
+
 	// Scroll item down.
 	case "<Down>":
 		widget.instance.ScrollDown()
@@ -112,20 +114,52 @@ func (widget *Quotes) Events(e ui.Event) {
 }
 
 //
-// Returns results header.
+// Returns API response results.
 //
-func (widget *Quotes) header() string {
-	return common.PadRgt("#", quotesPad["Counter"]) + common.PadRgt(widget.Language.Translate("Symbol"), quotesPad["Symbol"]) + common.PadRgt(widget.Language.Translate("Name"), quotesPad["Name"]) + common.PadRgt(widget.Language.Translate("Price"), quotesPad["Price"]) + common.PadRgt(widget.Language.Translate("MarketCap"), quotesPad["MarketCap"]) + common.PadRgt(widget.Language.Translate("Volume24h"), quotesPad["Volume24h"]) + common.PadRgt(widget.Language.Translate("TotalSupply"), quotesPad["TotalSupply"]) + common.PadRgt(widget.Language.Translate("PercentChange1h"), quotesPad["PercentChange1h"]) + common.PadRgt(widget.Language.Translate("PercentChange24h"), quotesPad["PercentChange24h"]) + common.PadRgt(widget.Language.Translate("PercentChange7d"), quotesPad["PercentChange7d"])
+func (widget *Quotes) results() []results.Quotes {
+	items := widget.Request.Get().([]results.Quotes)
+
+	// Sort items by field name.
+	sort.SliceStable(items, func(i, j int) bool {
+		var cmp bool
+
+		switch widget.sortCol {
+		case "Symbol":           cmp = widget.cmpStr(items[i].Symbol,           items[j].Symbol)
+		case "Name":             cmp = widget.cmpStr(items[i].Name,             items[j].Name)
+		case "Price":            cmp = widget.cmpFlt(items[i].Price,            items[j].Price)
+		case "MarketCap":        cmp = widget.cmpFlt(items[i].MarketCap,        items[j].MarketCap)
+		case "Volume24h":        cmp = widget.cmpFlt(items[i].Volume24h,        items[j].Volume24h)
+		case "TotalSupply":      cmp = widget.cmpInt(items[i].TotalSupply,      items[j].TotalSupply)
+		case "PercentChange1h":  cmp = widget.cmpFlt(items[i].PercentChange1h,  items[j].PercentChange1h)
+		case "PercentChange24h": cmp = widget.cmpFlt(items[i].PercentChange24h, items[j].PercentChange24h)
+		case "PercentChange7d":  cmp = widget.cmpFlt(items[i].PercentChange7d,  items[j].PercentChange7d)
+		}
+
+		return cmp
+	})
+
+	return items
 }
 
 //
 // Returns results rows.
 //
 func (widget *Quotes) rows() []string {
-	var rows []string
+	rows := []string{}
 
-	for i, v := range widget.Request.Get().([]results.Quotes) {
-		row := common.PadRgt(i + 1, quotesPad["Counter"]) + common.PadRgt(v.Symbol, quotesPad["Symbol"]) + common.PadRgt(v.Name, quotesPad["Name"]) + common.PadRgt(widget.price(v.Price), quotesPad["Price"]) + common.PadRgt(widget.marketCap(v.MarketCap), quotesPad["MarketCap"]) + common.PadRgt(widget.volume24h(v.Volume24h), quotesPad["Volume24h"]) + common.PadRgt(widget.totalSupply(v.TotalSupply), quotesPad["TotalSupply"]) + common.PadRgt(widget.percentChange(v.PercentChange1h), quotesPad["PercentChange1h"]) + common.PadRgt(widget.percentChange(v.PercentChange24h), quotesPad["PercentChange24h"]) + common.PadRgt(widget.percentChange(v.PercentChange7d), quotesPad["PercentChange7d"])
+	for i, v := range widget.results() {
+		row := fmt.Sprint(
+			common.PadRgt(i + 1,                                     4),
+			common.PadRgt(v.Symbol,                                  9),
+			common.PadRgt(v.Name,                                   12),
+			common.PadRgt(widget.price(v.Price),                    12),
+			common.PadRgt(widget.marketCap(v.MarketCap),            19),
+			common.PadRgt(widget.volume24h(v.Volume24h),            18),
+			common.PadRgt(widget.totalSupply(v.TotalSupply),        19),
+			common.PadRgt(widget.percentChange(v.PercentChange1h),  16),
+			common.PadRgt(widget.percentChange(v.PercentChange24h), 17),
+			common.PadRgt(widget.percentChange(v.PercentChange7d),  10),
+		)
 
 		rows = append(rows, row)
 	}
@@ -134,8 +168,95 @@ func (widget *Quotes) rows() []string {
 }
 
 //
+// Returns results header.
+//
+func (widget *Quotes) header() string {
+	return fmt.Sprint(
+		common.PadRgt("#",                               4),
+		common.PadRgt(widget.title("Symbol"),            9),
+		common.PadRgt(widget.title("Name"),             12),
+		common.PadRgt(widget.title("Price"),            12),
+		common.PadRgt(widget.title("MarketCap"),        19),
+		common.PadRgt(widget.title("Volume24h"),        18),
+		common.PadRgt(widget.title("TotalSupply"),      19),
+		common.PadRgt(widget.title("PercentChange1h"),  16),
+		common.PadRgt(widget.title("PercentChange24h"), 17),
+		common.PadRgt(widget.title("PercentChange7d"),  10),
+	)
+}
+
+//
+// Returns a sort direction arrow for a field.
+//
+func (widget *Quotes) sortArrow(v string) string {
+	var char string
+
+	if widget.sortCol == v {
+		switch widget.sortDir {
+		case "ASC":  char = common.PadRgt("▴", 2)
+		case "DESC": char = common.PadRgt("▾", 2)
+		}
+	}
+
+	return char
+}
+
+//
+// Toggle the sort direction; define otherwise.
+//
+func (widget *Quotes) sortByCol(v string) {
+	widget.sortCol = v
+	widget.sortByDir()
+}
+
+//
+// Toggle the sort direction; define otherwise.
+//
+func (widget *Quotes) sortByDir() {
+	if widget.sortDir != `` && widget.sortDir == "ASC" {
+		widget.sortDir = "DESC"
+	} else {
+		widget.sortDir = "ASC"
+	}
+}
+
+//
+// Returns a sort comparison operation results.
+//
+func (widget *Quotes) cmpInt(a, b int64) bool {
+	if widget.sortDir == "DESC" {
+		return a > b
+	}
+
+	return a < b
+}
+
+func (widget *Quotes) cmpFlt(a, b float64) bool {
+	if widget.sortDir == "DESC" {
+		return a > b
+	}
+
+	return a < b
+}
+
+func (widget *Quotes) cmpStr(a, b string) bool {
+	a = strings.ToLower(a)
+	b = strings.ToLower(b)
+
+	if widget.sortDir == "DESC" {
+		return a > b
+	}
+
+	return a < b
+}
+
+//
 // Returns post-processed column values.
 //
+func (widget *Quotes) title(v string) string {
+	return fmt.Sprint(widget.sortArrow(v), widget.Language.Translate(v))
+}
+
 func (widget Quotes) marketCap(v float64) string {
 	return widget.Currency.Format(v, 0)
 }

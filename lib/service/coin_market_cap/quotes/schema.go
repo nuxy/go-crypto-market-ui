@@ -26,22 +26,31 @@ type currency struct {
 
 type quote map[string]currency
 
+type platform struct {
+	ID        int    `json:"id"`
+	Name      string `json:"name"`
+	Symbol    string `json:"symbol"`
+	Slug      string `json:"slug"`
+	TokenAddr string `json:"token_address"`
+}
+
 type symbol struct {
-	ID          int      `json:"id"`
-	Name        string   `json:"name"`
-	Symbol      string   `json:"symbol"`
-	Slug        string   `json:"slug"`
-	MarketPairs int      `json:"num_market_pairs"`
-	DateAdded   string   `json:"date_added"`
-	Tags        []string `json:"tags"`
-	MaxSupply   float64  `json:"max_supply"`
-	Circulating float64  `json:"circulating_supply"`
-	TotalSupply float64  `json:"total_supply"`
-	IsActive    int      `json:"is_active"`
-	Platform    *string  `json:"platform"`
-	CmcRank     int      `json:"cmc_rank"`
-	IsFiat      int      `json:"is_fiat"`
-	LastUpdated string   `json:"last_updated"`
+	ID          int       `json:"id"`
+	Name        string    `json:"name"`
+	Symbol      string    `json:"symbol"`
+	Slug        string    `json:"slug"`
+	MarketPairs int       `json:"num_market_pairs"`
+	DateAdded   string    `json:"date_added"`
+	Tags        []string  `json:"tags"`
+	MaxSupply   *float64  `json:"max_supply"`
+	Circulating float64   `json:"circulating_supply"`
+	TotalSupply float64   `json:"total_supply"`
+	Platform    *platform `json:"platform"`
+	IsActive    int       `json:"is_active"`
+	IsMarketInc *int      `json:"is_market_cap_included_in_calc"`
+	CmcRank     int       `json:"cmc_rank"`
+	IsFiat      int       `json:"is_fiat"`
+	LastUpdated string    `json:"last_updated"`
 	Quote       quote
 }
 
