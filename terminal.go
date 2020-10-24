@@ -11,6 +11,7 @@ package cryptomarketui
 
 import (
 	"log"
+	"os"
 	"time"
 
 	ui "github.com/gizak/termui/v3"
@@ -24,9 +25,10 @@ import (
 // Terminal declared data types.
 //
 type Terminal struct {
-	Config   *lib.Config
-	Currency *common.Currency
-	Language *common.Language
+	Config    *lib.Config
+	Currency  *common.Currency
+	Language  *common.Language
+	useTicker bool
 }
 
 //
@@ -34,85 +36,66 @@ type Terminal struct {
 //
 func NewTerminal(config *lib.Config) *Terminal {
 	terminal := &Terminal{}
-	terminal.Config = config
+	terminal.Config   = config
 	terminal.Currency = common.NewCurrency(config.Currency())
 	terminal.Language = common.NewLanguage(config.Language())
-	terminal.init()
+	terminal.initTermui()
 	return terminal
 }
 
 //
-// Initializes termui widgets.
+// Initializes termui dashboard.
 //
-func (terminal *Terminal) init() {
+func (terminal *Terminal) initTermui() {
 	if err := ui.Init(); err != nil {
-		log.Fatal("Failed to initialize terminal ", err)
+		log.Fatal("Failed to initialize termui ", err)
 	}
 
 	defer ui.Close()
 
-	// Load the screens.
+	// Render terminal widgets.
 	if terminal.Config.IsValid() {
-		terminal.loadMonitor()
+		terminal.renderQuotes()
 	} else {
-		terminal.loadSetup()
+		terminal.renderSetup()
 	}
 }
 
 //
-// Loads the monitor screen.
+// Initializes keyboard/mouse event handling.
 //
-func (terminal *Terminal) loadMonitor() {
-	widget := terminal.renderQuotes()
-
+func (terminal *Terminal) initEvents(actions common.WidgetAction, events common.WidgetEvent) {
 	uiEvents := ui.PollEvents()
 
-	ticker := time.NewTicker(time.Second).C
+	ticker := time.NewTicker(time.Second)
 
 	for {
 		select {
 		case e := <-uiEvents:
-			widget.Events(e)
+			events(e)
 
 			switch e.ID {
 
-			// Close the terminal.
+			// Exit the terminal.
+			case "<End>":
+				terminal.exitTerminal()
+
+			// Reset the terminal.
 			case "<Escape>":
-				return
+				terminal.resetTermui()
+
+			// Show Setup screen.
+			case "<Home>":
+				terminal.renderSetup()
 
 			// Resize the screen.
 			case "<Resize>":
-				widget.Render()
+				actions()
 			}
 
-		case <-ticker:
-			widget.Render()
-		}
-	}
-}
-
-//
-// Loads the setup screen.
-//
-func (terminal *Terminal) loadSetup() {
-	widget := terminal.renderSetup()
-
-	uiEvents := ui.PollEvents()
-
-	for {
-		select {
-		case e := <-uiEvents:
-			widget.Events(e)
-
-			switch e.ID {
-
-			// Close the terminal.
-			case "<Escape>":
-				return
-
-			// Resize the screen.
-			case "<Resize>":
-				widget.Render()
+		case <-ticker.C:
+			if terminal.useTicker {
+				actions()
 			}
 		}
 	}
@@ -121,17 +104,72 @@ func (terminal *Terminal) loadSetup() {
 //
 // Renders Setup widget.
 //
-func (terminal *Terminal) renderSetup() *widgets.Setup {
-	widget := widgets.NewSetup(terminal.Config, terminal.Language)
-	widget.Render()
-	return widget
+func (terminal *Terminal) renderSetup() {
+	terminal.useTicker = false
+
+	widget := terminal.initSetup()
+
+	actions := func() {
+		widget.Render()
+	}
+
+	events := func(e ui.Event) {
+		widget.Events(e)
+	}
+
+	actions()
+
+	terminal.initEvents(actions, events)
 }
 
 //
 // Renders Quotes widget.
 //
-func (terminal *Terminal) renderQuotes() *widgets.Quotes {
-	widget := widgets.NewQuotes(terminal.Config, terminal.Currency, terminal.Language)
-	widget.Render()
-	return widget
+func (terminal *Terminal) renderQuotes() {
+	terminal.useTicker = true
+
+	widget := terminal.initQuotes()
+
+	actions := func() {
+		widget.Render()
+	}
+
+	events := func(e ui.Event) {
+		widget.Events(e)
+	}
+
+	actions()
+
+	terminal.initEvents(actions, events)
+}
+
+//
+// Returns an instance of the Quotes widget.
+//
+func (terminal *Terminal) initQuotes() *widgets.Quotes {
+	return widgets.NewQuotes(terminal.Config, terminal.Currency, terminal.Language)
+}
+
+//
+// Returns an instance of the Setup widget.
+//
+func (terminal *Terminal) initSetup() *widgets.Setup {
+	return widgets.NewSetup(terminal.Config, terminal.Language)
+}
+
+//
+// Exits the terminal application.
+//
+func (terminal *Terminal) exitTerminal() {
+	ui.Close()
+	os.Exit(0)
+}
+
+//
+// Resets the termui dashboard.
+//
+func (terminal *Terminal) resetTermui() {
+	ui.Close()
+
+	terminal.initTermui()
 }

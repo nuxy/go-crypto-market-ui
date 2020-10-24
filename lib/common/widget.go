@@ -27,6 +27,16 @@ type Widget struct {
 }
 
 //
+// WidgetAction declared function.
+//
+type WidgetAction func()
+
+//
+//WidgetEvent declared function.
+//
+type WidgetEvent func(e ui.Event)
+
+//
 // WidgetActiveStyle returns new termui style instance.
 //
 func WidgetActiveStyle() ui.Style {
