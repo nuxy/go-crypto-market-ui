@@ -22,7 +22,14 @@ type Quotes struct{}
 // URI returns an unprocessed path.
 //
 func (Quotes) URI() string {
-	return "cryptocurrency/quotes/latest?symbol=%s"
+	return "cryptocurrency/quotes/latest"
+}
+
+//
+// Params returns query parameters.
+//
+func (Quotes) Params() []string {
+	return []string{"CMC_PRO_API_KEY={APIKey}", "convert={Currency}", "symbol={Symbols}"}
 }
 
 //

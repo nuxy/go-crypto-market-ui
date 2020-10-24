@@ -10,7 +10,6 @@
 package lib
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/nuxy/go-crypto-market-ui/lib/common"
@@ -39,7 +38,34 @@ func NewAPI(config *Config, endpointName string) *API {
 // URL returns as constructed location.
 //
 func (api *API) URL() string {
-	return fmt.Sprintf(api.rawURL(), api.symbols(), api.Config.APIKey())
+	return api.serviceInterface().URL(api.endpointName) + "?" + api.params()
+}
+
+//
+// Returns the endpoint query parameters.
+//
+func (api *API) params() string {
+	values := api.serviceInterface().Params(api.endpointName)
+	params := make([]string, len(values))
+
+	for i, v := range values {
+		field := strings.Split(v, "=")
+
+		switch field[1] {
+		case "{APIKey}":
+			params[i] = field[0] + "=" + api.Config.APIKey()
+		case "{Currency}":
+			params[i] = field[0] + "=" + api.Config.Currency()
+		case "{Language}":
+			params[i] = field[0] + "=" + api.Config.Language()
+		case "{Symbols}":
+			params[i] = field[0] + "=" + api.symbols()
+		default:
+			params[i] = field[0] + "=" + field[1]
+		}
+	}
+
+	return strings.Join(params, "&")
 }
 
 //
@@ -47,13 +73,6 @@ func (api *API) URL() string {
 //
 func (api *API) Parse(body []byte) interface{} {
 	return api.serviceInterface().Parse(api.endpointName, body)
-}
-
-//
-// Returns the endpoint defined raw URL.
-//
-func (api *API) rawURL() string {
-	return api.serviceInterface().URL(api.endpointName)
 }
 
 //
@@ -77,6 +96,7 @@ func (api *API) symbols() string {
 func (api *API) serviceInterface() common.ServiceInterface {
 	var instance common.ServiceInterface
 
+	// TODO: Support multiple services.
 	switch api.Config.ServiceName() {
 	case "CoinMarketCap":
 		instance = (service.CoinMarketCap{})

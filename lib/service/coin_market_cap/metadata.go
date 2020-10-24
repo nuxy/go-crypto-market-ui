@@ -22,7 +22,14 @@ type Metadata struct{}
 // URI returns an unprocessed path.
 //
 func (Metadata) URI() string {
-	return "cryptocurrency/info?symbol=%s"
+	return "cryptocurrency/info"
+}
+
+//
+// Params returns query parameters.
+//
+func (Metadata) Params() []string {
+	return []string{"CMC_PRO_API_KEY={APIKey}", "symbol={Symbols}"}
 }
 
 //

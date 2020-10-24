@@ -23,7 +23,14 @@ type CoinMarketCap struct{}
 // URL returns an unprocessed location.
 //
 func (service CoinMarketCap) URL(endpointName string) string {
-	return "https://pro-api.coinmarketcap.com/v1/" + service.endpointInterface(endpointName).URI() + "&CMC_PRO_API_KEY=%s"
+	return "https://pro-api.coinmarketcap.com/v1/" + service.endpointInterface(endpointName).URI()
+}
+
+//
+// Params returns query parameters for a given endpoint.
+//
+func (service CoinMarketCap) Params(endpointName string) []string {
+	return service.endpointInterface(endpointName).Params()
 }
 
 //
