@@ -55,7 +55,7 @@ func (terminal *Terminal) initTermui() {
 
 	// Render terminal widgets.
 	if terminal.Config.IsValid() {
-		terminal.renderQuotes()
+		terminal.renderDashboard()
 	} else {
 		terminal.renderSetup()
 	}
@@ -102,6 +102,29 @@ func (terminal *Terminal) initEvents(actions common.WidgetAction, events common.
 }
 
 //
+// Renders dashboard widgets.
+//
+func (terminal *Terminal) renderDashboard() {
+	terminal.useTicker = true
+
+	widget1 := terminal.initClock()
+	widget2 := terminal.initQuotes()
+
+	actions := func() {
+		widget1.Render()
+		widget2.Render()
+	}
+
+	events := func(e ui.Event) {
+		widget2.Events(e)
+	}
+
+	actions()
+
+	terminal.initEvents(actions, events)
+}
+
+//
 // Renders Setup widget.
 //
 func (terminal *Terminal) renderSetup() {
@@ -123,24 +146,10 @@ func (terminal *Terminal) renderSetup() {
 }
 
 //
-// Renders Quotes widget.
+// Returns an instance of the Clock widget.
 //
-func (terminal *Terminal) renderQuotes() {
-	terminal.useTicker = true
-
-	widget := terminal.initQuotes()
-
-	actions := func() {
-		widget.Render()
-	}
-
-	events := func(e ui.Event) {
-		widget.Events(e)
-	}
-
-	actions()
-
-	terminal.initEvents(actions, events)
+func (terminal *Terminal) initClock() *widgets.Clock {
+	return widgets.NewClock(terminal.Language)
 }
 
 //

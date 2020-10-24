@@ -25,9 +25,9 @@ import (
 // Widget properties.
 var quotesRect = common.Widget{
 	Left:   1,
-	Top:    8,
+	Top:    3,
 	Right:  145,
-	Bottom: 1,
+	Bottom: 11,
 }
 
 //
