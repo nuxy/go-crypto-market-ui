@@ -1,4 +1,30 @@
 #
+# Help widget
+#
+KeyboardShortcuts: "Keyboard Shortcuts"
+KeyboardCommands: |
+  Command      Description
+  ────────────────────────────────────────────────────
+     1         Sort by column: Symbol
+     2         Sort by column: Name
+     3         Sort by column: Price
+     4         Sort by column: Market Cap
+     5         Sort by column: 24h Volume
+     6         Sort by column: Total Supply
+     7         Sort by column: % Change (1h)
+     8         Sort by column: % Change (24h)
+     9         Sort by column: % Change (7d)
+
+     🠹         Scroll item up.
+     🠻         Scroll item down.
+
+    Home       Configure the application.
+    End        Exit the application.
+    Esc        Close window/reload page.
+
+     ?         This help menu.
+
+#
 # Setup widget
 #
 Configuration:    Configuration

@@ -1,9 +1,35 @@
 #
+# Help widget
+#
+KeyboardShortcuts: "Atajos de teclado"
+KeyboardCommands: |
+  Comando      Descripción
+  ────────────────────────────────────────────────────
+     1         Ordenar por columna: Símbolo
+     2         Ordenar por columna: Nombre
+     3         Ordenar por columna: Precio
+     4         Ordenar por columna: Cap. de Mercado
+     5         Ordenar por columna: 24h Volumen
+     6         Ordenar por columna: Suministro Total
+     7         Ordenar por columna: % Cambio (1h)
+     8         Ordenar por columna: % Cambio (24h)
+     9         Ordenar por columna: % Cambio (7d)
+
+     🠹         Desplazarse hacia abajo.
+     🠻         Desplazarse hacia arriba.
+
+    Home       Configurar la aplicación.
+    End        Salir de la aplicación.
+    Esc        Cerrar ventana / recargar página.
+
+     ?         Este menú de ayuda.
+
+#
 # Setup widget
 #
 Configuration:    Configuración
 ServiceName:      Nombre del Servicio
-APIKey:           API Key
+APIKey:           Clave API
 Currency:         Código de moneda
 Language:         Código de lenguaje
 RefreshRate:      Frecuencia de actualización

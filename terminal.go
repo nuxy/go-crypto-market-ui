@@ -76,6 +76,10 @@ func (terminal *Terminal) initEvents(actions common.WidgetAction, events common.
 
 			switch e.ID {
 
+			// Show help menu.
+			case "?":
+				terminal.renderHelp()
+
 			// Exit the terminal.
 			case "<End>":
 				terminal.exitTerminal()
@@ -125,6 +129,15 @@ func (terminal *Terminal) renderDashboard() {
 }
 
 //
+// Renders Help widget.
+//
+func (terminal *Terminal) renderHelp() {
+	terminal.useTicker = false
+
+	terminal.initHelp().Render()
+}
+
+//
 // Renders Setup widget.
 //
 func (terminal *Terminal) renderSetup() {
@@ -150,6 +163,13 @@ func (terminal *Terminal) renderSetup() {
 //
 func (terminal *Terminal) initClock() *widgets.Clock {
 	return widgets.NewClock(terminal.Language)
+}
+
+//
+// Returns an instance of the Help widget.
+//
+func (terminal *Terminal) initHelp() *widgets.Help {
+	return widgets.NewHelp(terminal.Language)
 }
 
 //
