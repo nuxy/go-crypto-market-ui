@@ -64,13 +64,13 @@ func (widget *Setup) Render() {
 
 	ui.Render(obj)
 
-	widget.renderFields()
+	widget.RenderFields()
 }
 
 //
-// Render editable fields.
+// RenderFields creates editable fields.
 //
-func (widget *Setup) renderFields() {
+func (widget *Setup) RenderFields() {
 	margin := 4
 
 	// Widget properties.
@@ -116,13 +116,41 @@ func (widget *Setup) Events(e ui.Event) {
 
 	switch e.ID {
 
-	// Toggle active field.
+	// Save field values.
 	case "<Enter>":
-		widget.setActive()
+		widget.saveFields()
 
+	// Toggle active field.
 	case "<Tab>":
 		widget.setActive()
 	}
+}
+
+//
+// Save the field config values.
+//
+func (widget *Setup) saveFields() {
+	r := reflect.ValueOf(widget.Config.Options())
+
+	for i := 0; i < r.NumField(); i++ {
+		name := r.Type().Field(i).Name
+
+		if name == "Symbols" {
+			continue
+		}
+
+		value := widget.fields[i].Value()
+
+		switch name {
+		case "ServiceName": widget.Config.ServiceName(value)
+		case "APIKey":      widget.Config.APIKey(value)
+		case "Currency":    widget.Config.Currency(value)
+		case "Language":    widget.Config.Language(value)
+		case "RefreshRate": widget.Config.RefreshRate(value)
+		}
+	}
+
+	widget.Config.Save()
 }
 
 //
