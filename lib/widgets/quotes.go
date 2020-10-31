@@ -25,9 +25,9 @@ import (
 // Widget properties.
 var quotesRect = common.Widget{
 	Left:   1,
-	Top:    3,
+	Top:    23,
 	Right:  145,
-	Bottom: 11,
+	Bottom: 46,
 }
 
 //
@@ -50,7 +50,7 @@ func NewQuotes(config *lib.Config, currency *common.Currency, language *common.L
 	widget.Request  = lib.NewRequest(lib.NewAPI(config, "Quotes"))
 	widget.Currency = currency
 	widget.Language = language
-	widget.sortCol  = "MarketCap"
+	widget.sortCol  = "Symbol"
 	return widget
 }
 
@@ -149,15 +149,15 @@ func (widget *Quotes) rows() []string {
 
 	for i, v := range widget.results() {
 		row := fmt.Sprint(
-			common.PadRgt(i + 1,                                     4),
-			common.PadRgt(v.Symbol,                                  9),
-			common.PadRgt(widget.name(v.Name),                      12),
+			common.PadRgt(i + 1,                                     3),
+			common.PadRgt(v.Symbol,                                 10),
+			common.PadRgt(widget.name(v.Name),                      13),
 			common.PadRgt(widget.price(v.Price),                    12),
 			common.PadRgt(widget.marketCap(v.MarketCap),            19),
 			common.PadRgt(widget.volume24h(v.Volume24h),            18),
 			common.PadRgt(widget.totalSupply(v.TotalSupply),        19),
 			common.PadRgt(widget.percentChange(v.PercentChange1h),  16),
-			common.PadRgt(widget.percentChange(v.PercentChange24h), 17),
+			common.PadRgt(widget.percentChange(v.PercentChange24h), 16),
 			common.PadRgt(widget.percentChange(v.PercentChange7d),  10),
 		)
 
@@ -172,15 +172,15 @@ func (widget *Quotes) rows() []string {
 //
 func (widget *Quotes) header() string {
 	return fmt.Sprint(
-		common.PadRgt("#",                               4),
-		common.PadRgt(widget.title("Symbol"),            9),
-		common.PadRgt(widget.title("Name"),             12),
+		common.PadRgt("#",                               3),
+		common.PadRgt(widget.title("Symbol"),           10),
+		common.PadRgt(widget.title("Name"),             13),
 		common.PadRgt(widget.title("Price"),            12),
 		common.PadRgt(widget.title("MarketCap"),        19),
 		common.PadRgt(widget.title("Volume24h"),        18),
 		common.PadRgt(widget.title("TotalSupply"),      19),
 		common.PadRgt(widget.title("PercentChange1h"),  16),
-		common.PadRgt(widget.title("PercentChange24h"), 17),
+		common.PadRgt(widget.title("PercentChange24h"), 16),
 		common.PadRgt(widget.title("PercentChange7d"),  10),
 	)
 }
@@ -274,7 +274,7 @@ func (Quotes) percentChange(v float64) string {
 }
 
 func (Quotes) name(v string) string {
-	return common.TruncStr(v, 11)
+	return common.TruncStr(v, 12)
 }
 
 func (Quotes) totalSupply(v int64) string {

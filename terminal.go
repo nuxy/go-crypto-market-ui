@@ -112,15 +112,17 @@ func (terminal *Terminal) renderDashboard() {
 	terminal.useTicker = true
 
 	widget1 := terminal.initClock()
-	widget2 := terminal.initQuotes()
+	widget2 := terminal.initHoldings()
+	widget3 := terminal.initQuotes()
 
 	actions := func() {
 		widget1.Render()
 		widget2.Render()
+		widget3.Render()
 	}
 
 	events := func(e ui.Event) {
-		widget2.Events(e)
+		widget3.Events(e)
 	}
 
 	actions()
@@ -170,6 +172,13 @@ func (terminal *Terminal) initClock() *widgets.Clock {
 //
 func (terminal *Terminal) initHelp() *widgets.Help {
 	return widgets.NewHelp(terminal.Language)
+}
+
+//
+// Returns an instance of the Holdings widget.
+//
+func (terminal *Terminal) initHoldings() *widgets.Holdings {
+	return widgets.NewHoldings(terminal.Config, terminal.Currency, terminal.Language)
 }
 
 //

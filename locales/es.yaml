@@ -25,6 +25,11 @@ KeyboardCommands: |
      ?         Este menú de ayuda.
 
 #
+# Holdings widget
+#
+MarketHoldings:   Tenencias
+
+#
 # Setup widget
 #
 Configuration:    Configuración
