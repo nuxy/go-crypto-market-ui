@@ -49,15 +49,15 @@ func (widget *Field) Render() {
 	obj.Text  = widget.newValue
 
 	if widget.isActive {
-		obj.BorderStyle = widget.style(ui.ColorYellow)
+		obj.BorderStyle = common.WidgetActiveStyle()
 	} else {
-		obj.BorderStyle = widget.style(ui.ColorWhite)
+		obj.BorderStyle = common.WidgetDefaultStyle()
 	}
 
 	if widget.newValue != widget.oldValue {
-		obj.TextStyle = widget.style(ui.ColorYellow)
+		obj.TextStyle = common.WidgetActiveStyle()
 	} else {
-		obj.TextStyle = widget.style(ui.ColorWhite)
+		obj.TextStyle = common.WidgetDefaultStyle()
 	}
 
 	obj.SetRect(
@@ -137,11 +137,4 @@ func (widget *Field) delValue() {
 	}
 
 	widget.Render()
-}
-
-//
-// Returns new termui style instance.
-//
-func (Field) style(color ui.Color) ui.Style {
-	return ui.NewStyle(color)
 }

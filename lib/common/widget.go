@@ -17,13 +17,11 @@ import (
 // Widget declared data types.
 //
 type Widget struct {
-	Title       string
-	Left        int
-	Top         int
-	Right       int
-	Bottom      int
-	BorderColor ui.Color
-	TextColor   ui.Color
+	Title  string
+	Left   int
+	Top    int
+	Right  int
+	Bottom int
 }
 
 //
@@ -41,6 +39,13 @@ type WidgetEvent func(e ui.Event)
 //
 func WidgetActiveStyle() ui.Style {
 	return ui.NewStyle(ui.ColorYellow)
+}
+
+//
+// WidgetDefaultStyle returns new termui style instance.
+//
+func WidgetDefaultStyle() ui.Style {
+	return ui.NewStyle(ui.ColorWhite)
 }
 
 //
