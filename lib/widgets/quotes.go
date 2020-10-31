@@ -151,7 +151,7 @@ func (widget *Quotes) rows() []string {
 		row := fmt.Sprint(
 			common.PadRgt(i + 1,                                     4),
 			common.PadRgt(v.Symbol,                                  9),
-			common.PadRgt(v.Name,                                   12),
+			common.PadRgt(widget.name(v.Name),                      12),
 			common.PadRgt(widget.price(v.Price),                    12),
 			common.PadRgt(widget.marketCap(v.MarketCap),            19),
 			common.PadRgt(widget.volume24h(v.Volume24h),            18),
@@ -271,6 +271,10 @@ func (widget Quotes) volume24h(v float64) string {
 
 func (Quotes) percentChange(v float64) string {
 	return fmt.Sprintf("%.2f", v)
+}
+
+func (Quotes) name(v string) string {
+	return common.TruncStr(v, 11)
 }
 
 func (Quotes) totalSupply(v int64) string {

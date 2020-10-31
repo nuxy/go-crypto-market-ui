@@ -139,6 +139,11 @@ func (widget *Setup) saveFields() {
 			continue
 		}
 
+		// TODO: Support multiple services.
+		if name == "ServiceName" {
+			continue
+		}
+
 		value := widget.fields[i].Value()
 
 		switch name {

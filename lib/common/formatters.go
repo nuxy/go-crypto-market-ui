@@ -36,3 +36,18 @@ func PadLft(v interface{}, length int) string {
 func PadRgt(v interface{}, length int) string {
 	return pad.Right(fmt.Sprint(v), length, " ")
 }
+
+//
+// TruncStr returns truncated string with ellipses.
+//
+func TruncStr(v string, length int) string {
+	if len(v) > length {
+		if length > 2 {
+			length -= 2
+		}
+
+		v = v[0:length] + ".."
+	}
+
+	return v
+}
