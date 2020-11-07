@@ -38,6 +38,7 @@ type Quotes struct {
 	Currency *common.Currency
 	Language *common.Language
 	instance *widgets.List
+	selected string
 	sortCol  string
 	sortDir  string
 }
@@ -62,13 +63,13 @@ func (widget *Quotes) Render() {
 
 	if widget.instance == nil {
 		obj = widgets.NewList()
-		obj.BorderStyle   = common.WidgetBorderStyle()
-		obj.TextStyle     = common.WidgetActiveStyle()
-		obj.TitleStyle    = common.WidgetTitleStyle()
-		obj.PaddingLeft   = 1
-		obj.PaddingTop    = 1
-		obj.PaddingRight  = 1
-		obj.PaddingBottom = 1
+		obj.BorderStyle      = common.WidgetBorderStyle()
+		obj.SelectedRowStyle = common.WidgetActiveStyle()
+		obj.TitleStyle       = common.WidgetTitleStyle()
+		obj.PaddingLeft      = 1
+		obj.PaddingTop       = 1
+		obj.PaddingRight     = 1
+		obj.PaddingBottom    = 1
 
 		obj.SetRect(
 			quotesRect.Left,
@@ -114,6 +115,13 @@ func (widget *Quotes) Events(e ui.Event) {
 }
 
 //
+// Selected returns the symbol value.
+//
+func (widget *Quotes) Selected() string {
+	return widget.selected
+}
+
+//
 // Returns API response results.
 //
 func (widget *Quotes) results() []results.Quotes {
@@ -137,6 +145,8 @@ func (widget *Quotes) results() []results.Quotes {
 
 		return cmp
 	})
+
+	widget.selected = items[widget.instance.SelectedRow].Symbol
 
 	return items
 }

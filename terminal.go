@@ -118,18 +118,23 @@ func (terminal *Terminal) initEvents(actions common.WidgetAction, events common.
 func (terminal *Terminal) renderDashboard() {
 	terminal.useTicker = true
 
-	widget1 := terminal.initClock()
+	widget1 := terminal.initQuotes()
 	widget2 := terminal.initHoldings()
-	widget3 := terminal.initQuotes()
+	widget3 := terminal.initProfile()
+	widget4 := terminal.initClock()
 
 	actions := func() {
 		widget1.Render()
+
+		selected := widget1.Selected()
+
 		widget2.Render()
-		widget3.Render()
+		widget3.Symbol(selected).Render()
+		widget4.Render()
 	}
 
 	events := func(e ui.Event) {
-		widget3.Events(e)
+		widget1.Events(e)
 	}
 
 	actions()
@@ -186,6 +191,13 @@ func (terminal *Terminal) initHelp() *widgets.Help {
 //
 func (terminal *Terminal) initHoldings() *widgets.Holdings {
 	return widgets.NewHoldings(terminal.Config, terminal.Currency, terminal.Language)
+}
+
+//
+// Returns an instance of the Profile widget.
+//
+func (terminal *Terminal) initProfile() *widgets.Profile {
+	return widgets.NewProfile(terminal.Config, terminal.Language)
 }
 
 //

@@ -30,6 +30,11 @@ KeyboardCommands: |
 MarketHoldings:   Holdings
 
 #
+# Profile widget
+#
+MarketProfile:    Market Profile
+
+#
 # Setup widget
 #
 Configuration:    Configuration
