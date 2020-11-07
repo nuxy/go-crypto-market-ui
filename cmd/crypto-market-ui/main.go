@@ -12,7 +12,15 @@ package main
 import(
 	ui "github.com/nuxy/go-crypto-market-ui"
 	"github.com/nuxy/go-crypto-market-ui/lib"
+	"github.com/nuxy/go-crypto-market-ui/lib/widgets"
 )
+
+// Version Makefile $VERSION
+var Version string
+
+func init() {
+	widgets.Version = Version
+}
 
 //
 // Let's get this party started.

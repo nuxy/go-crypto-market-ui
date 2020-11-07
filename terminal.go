@@ -121,16 +121,18 @@ func (terminal *Terminal) renderDashboard() {
 	widget1 := terminal.initQuotes()
 	widget2 := terminal.initHoldings()
 	widget3 := terminal.initProfile()
-	widget4 := terminal.initClock()
+	widget4 := terminal.initRelease()
+	widget5 := terminal.initClock()
 
 	actions := func() {
 		widget1.Render()
 
 		selected := widget1.Selected()
 
-		widget2.Render()
+		widget2.Load(selected).Render()
 		widget3.Symbol(selected).Render()
 		widget4.Render()
+		widget5.Render()
 	}
 
 	events := func(e ui.Event) {
@@ -205,6 +207,13 @@ func (terminal *Terminal) initProfile() *widgets.Profile {
 //
 func (terminal *Terminal) initQuotes() *widgets.Quotes {
 	return widgets.NewQuotes(terminal.Config, terminal.Currency, terminal.Language)
+}
+
+//
+// Returns an instance of the Release widget.
+//
+func (terminal *Terminal) initRelease() *widgets.Release {
+	return widgets.NewRelease()
 }
 
 //
