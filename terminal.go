@@ -36,11 +36,18 @@ type Terminal struct {
 //
 func NewTerminal(config *lib.Config) *Terminal {
 	terminal := &Terminal{}
-	terminal.Config   = config
-	terminal.Currency = common.NewCurrency(config.Currency())
-	terminal.Language = common.NewLanguage(config.Language())
-	terminal.initTermui()
+	terminal.Config = config
+	terminal.init()
 	return terminal
+}
+
+//
+// Initializes terminal dependencies.
+//
+func (terminal *Terminal) init() {
+	terminal.Currency = common.NewCurrency(terminal.Config.Currency())
+	terminal.Language = common.NewLanguage(terminal.Config.Language())
+	terminal.initTermui()
 }
 
 //
@@ -53,7 +60,7 @@ func (terminal *Terminal) initTermui() {
 
 	defer ui.Close()
 
-	// Render terminal widgets.
+	// Render widgets.
 	if terminal.Config.IsValid() {
 		terminal.renderDashboard()
 	} else {
@@ -86,7 +93,7 @@ func (terminal *Terminal) initEvents(actions common.WidgetAction, events common.
 
 			// Reset the terminal.
 			case "<Escape>":
-				terminal.resetTermui()
+				terminal.resetTerminal()
 
 			// Show Setup screen.
 			case "<Home>":
@@ -204,10 +211,10 @@ func (terminal *Terminal) exitTerminal() {
 }
 
 //
-// Resets the termui dashboard.
+// Resets the terminal application.
 //
-func (terminal *Terminal) resetTermui() {
+func (terminal *Terminal) resetTerminal() {
 	ui.Close()
 
-	terminal.initTermui()
+	terminal.init()
 }
