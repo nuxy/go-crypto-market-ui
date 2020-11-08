@@ -39,6 +39,8 @@ type Holdings struct {
 	Currency *common.Currency
 	Language *common.Language
 	instance *termui.BarChart
+	labels   []string
+	values   []float64
 	total    float64
 }
 
@@ -87,15 +89,16 @@ func (widget *Holdings) Render() {
 		widget.Currency.Format(widget.total, 2),
 	)
 
-	obj.Labels, obj.Data = widget.data()
+	obj.Labels = widget.labels
+	obj.Data   = widget.values
 
 	ui.Render(obj)
 }
 
 //
-// Returns chart data sources.
+// Symbol defines the instance data.
 //
-func (widget *Holdings) data() ([]string, []float64) {
+func (widget *Holdings) Symbol(v string) *Holdings {
 	symbols := widget.Config.Symbols()
 	count   := len(symbols)
 
@@ -113,13 +116,9 @@ func (widget *Holdings) data() ([]string, []float64) {
 		}
 	}
 
-	widget.total = total
-
-	if total == 0 {
-		return labels, totals
-	}
-
 	sort.Strings(labels)
+
+	labels = shiftToValue(labels, v)
 
 	for _, k := range labels {
 
@@ -131,7 +130,13 @@ func (widget *Holdings) data() ([]string, []float64) {
 		}
 	}
 
-	return labels, values
+	if total != 0 {
+		widget.labels = labels
+		widget.values = values
+		widget.total  = total
+	}
+
+	return widget
 }
 
 //

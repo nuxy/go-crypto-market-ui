@@ -11,6 +11,7 @@ package widgets
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"strings"
 
@@ -170,6 +171,11 @@ func (widget *Quotes) rows() []string {
 			common.PadRgt(widget.percentChange(v.PercentChange24h), 16),
 			common.PadRgt(widget.percentChange(v.PercentChange7d),  10),
 		)
+
+		// Highlight daily changes (e.g. loss).
+		if math.Signbit(v.PercentChange24h) {
+			row = fmt.Sprintf("[%s](fg:red)", row)
+		}
 
 		rows = append(rows, row)
 	}

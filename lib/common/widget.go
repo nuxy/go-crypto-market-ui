@@ -38,7 +38,7 @@ type WidgetEvent func(e ui.Event)
 // WidgetActiveStyle returns new termui style instance.
 //
 func WidgetActiveStyle() ui.Style {
-	return ui.NewStyle(ui.ColorYellow)
+	return ui.NewStyle(ui.ColorYellow, ui.ColorClear, ui.ModifierBold)
 }
 
 //

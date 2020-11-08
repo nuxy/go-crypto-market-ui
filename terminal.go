@@ -129,7 +129,7 @@ func (terminal *Terminal) renderDashboard() {
 
 		selected := widget1.Selected()
 
-		widget2.Load(selected).Render()
+		widget2.Symbol(selected).Render()
 		widget3.Symbol(selected).Render()
 		widget4.Render()
 		widget5.Render()
