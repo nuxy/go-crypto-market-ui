@@ -27,8 +27,8 @@ import (
 var quotesRect = common.Widget{
 	Left:   1,
 	Top:    23,
-	Right:  145,
-	Bottom: 46,
+	Right:  176,
+	Bottom: 47,
 }
 
 //
@@ -160,16 +160,16 @@ func (widget *Quotes) rows() []string {
 
 	for i, v := range widget.results() {
 		row := fmt.Sprint(
-			common.PadRgt(i + 1,                                     3),
+			common.PadRgt(i + 1,                                     7),
 			common.PadRgt(v.Symbol,                                 10),
-			common.PadRgt(widget.name(v.Name),                      13),
-			common.PadRgt(widget.price(v.Price),                    12),
-			common.PadRgt(widget.marketCap(v.MarketCap),            19),
-			common.PadRgt(widget.volume24h(v.Volume24h),            18),
-			common.PadRgt(widget.totalSupply(v.TotalSupply),        19),
-			common.PadRgt(widget.percentChange(v.PercentChange1h),  16),
-			common.PadRgt(widget.percentChange(v.PercentChange24h), 16),
-			common.PadRgt(widget.percentChange(v.PercentChange7d),  10),
+			common.PadRgt(widget.name(v.Name),                      18),
+			common.PadRgt(widget.price(v.Price),                    15),
+			common.PadRgt(widget.marketCap(v.MarketCap),            25),
+			common.PadRgt(widget.volume24h(v.Volume24h),            20),
+			common.PadRgt(widget.totalSupply(v.TotalSupply),        20),
+			common.PadRgt(widget.percentChange(v.PercentChange1h),  20),
+			common.PadRgt(widget.percentChange(v.PercentChange24h), 20),
+			common.PadRgt(widget.percentChange(v.PercentChange7d),  16),
 		)
 
 		// Highlight daily changes (e.g. loss).
@@ -188,16 +188,16 @@ func (widget *Quotes) rows() []string {
 //
 func (widget *Quotes) header() string {
 	return fmt.Sprint(
-		common.PadRgt("#",                               3),
+		common.PadRgt("#",                               7),
 		common.PadRgt(widget.title("Symbol"),           10),
-		common.PadRgt(widget.title("Name"),             13),
-		common.PadRgt(widget.title("Price"),            12),
-		common.PadRgt(widget.title("MarketCap"),        19),
-		common.PadRgt(widget.title("Volume24h"),        18),
-		common.PadRgt(widget.title("TotalSupply"),      19),
-		common.PadRgt(widget.title("PercentChange1h"),  16),
-		common.PadRgt(widget.title("PercentChange24h"), 16),
-		common.PadRgt(widget.title("PercentChange7d"),  10),
+		common.PadRgt(widget.title("Name"),             18),
+		common.PadRgt(widget.title("Price"),            15),
+		common.PadRgt(widget.title("MarketCap"),        25),
+		common.PadRgt(widget.title("Volume24h"),        20),
+		common.PadRgt(widget.title("TotalSupply"),      20),
+		common.PadRgt(widget.title("PercentChange1h"),  20),
+		common.PadRgt(widget.title("PercentChange24h"), 20),
+		common.PadRgt(widget.title("PercentChange7d"),  16),
 	)
 }
 
@@ -290,7 +290,7 @@ func (Quotes) percentChange(v float64) string {
 }
 
 func (Quotes) name(v string) string {
-	return common.TruncStr(v, 12)
+	return common.TruncStr(v, 15)
 }
 
 func (Quotes) totalSupply(v int64) string {

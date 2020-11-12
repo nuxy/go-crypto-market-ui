@@ -20,9 +20,9 @@ import (
 
 // Widget properties.
 var profileRect = common.Widget{
-	Left:   101,
+	Left:   127,
 	Top:    3,
-	Right:  145,
+	Right:  176,
 	Bottom: 22,
 }
 

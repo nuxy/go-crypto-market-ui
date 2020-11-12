@@ -21,10 +21,10 @@ import (
 
 // Widget properties.
 var setupRect = common.Widget{
-	Left:   50,
-	Top:    8,
-	Right:  95,
-	Bottom: 31,
+	Left:   67,
+	Top:    12,
+	Right:  110,
+	Bottom: 35,
 }
 
 //

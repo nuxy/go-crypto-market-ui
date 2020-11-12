@@ -18,10 +18,10 @@ import (
 
 // Widget properties.
 var helpRect = common.Widget{
-	Left:   44,
-	Top:    8,
-	Right:  101,
-	Bottom: 32,
+	Left:   55,
+	Top:    12,
+	Right:  122,
+	Bottom: 36,
 }
 
 //

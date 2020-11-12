@@ -26,7 +26,7 @@ import (
 var holdingsRect = common.Widget{
 	Left:   1,
 	Top:    3,
-	Right:  99,
+	Right:  124,
 	Bottom: 22,
 }
 

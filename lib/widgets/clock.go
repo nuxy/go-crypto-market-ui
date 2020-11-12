@@ -20,9 +20,9 @@ import (
 
 // Widget properties.
 var clockRect = common.Widget{
-	Left:   114,
+	Left:   145,
 	Top:    0,
-	Right:  145,
+	Right:  178,
 	Bottom: 3,
 }
 
