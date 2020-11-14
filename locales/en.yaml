@@ -4,7 +4,7 @@
 KeyboardShortcuts: "Keyboard Shortcuts"
 KeyboardCommands: |
   Command      Description
-  ────────────────────────────────────────────────────
+  ──────────────────────────────────────────────────────────────
      1         Sort by column: Symbol
      2         Sort by column: Name
      3         Sort by column: Price

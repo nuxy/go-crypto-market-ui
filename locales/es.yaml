@@ -4,7 +4,7 @@
 KeyboardShortcuts: "Atajos de teclado"
 KeyboardCommands: |
   Comando      Descripción
-  ────────────────────────────────────────────────────
+  ──────────────────────────────────────────────────────────────
      1         Ordenar por columna: Símbolo
      2         Ordenar por columna: Nombre
      3         Ordenar por columna: Precio
