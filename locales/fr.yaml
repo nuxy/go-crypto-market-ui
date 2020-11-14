@@ -1,0 +1,58 @@
+#
+# Help widget
+#
+KeyboardShortcuts: "Raccourcis clavier"
+KeyboardCommands: |
+  Commander    La description
+  ──────────────────────────────────────────────────────────────
+     1         Trier par colonne: Symbole
+     2         Trier par colonne: Nom
+     3         Trier par colonne: Prix
+     4         Trier par colonne: Capitalisation boursière
+     5         Trier par colonne: Volume 24h
+     6         Trier par colonne: Offre totale
+     7         Trier par colonne: % modifié (1h)
+     8         Trier par colonne: % modifié (24h)
+     9         Trier par colonne: % modifié (7d)
+
+     🠹         Faire défiler l'élément vers le haut.
+     🠻         Faire défiler l'élément vers le bas.
+
+    Home       Configurer l'application.
+    End        Quittez l'application.
+    Esc        Fermer la fenêtre / recharger la page.
+
+     ?         Ce menu d'aide.
+
+#
+# Holdings widget
+#
+MarketHoldings:   Participations
+
+#
+# Profile widget
+#
+MarketProfile:    Profil de marché
+
+#
+# Setup widget
+#
+Configuration:    Configuration
+ServiceName:      Nom du service
+APIKey:           Clé API
+Currency:         Code de devise
+Language:         Code de langue
+RefreshRate:      Fréquence de rafraîchissement
+
+#
+# Quotes widget
+#
+Symbol:           Symbole
+Name:             Nom
+Price:            Prix
+MarketCap:        Capitalisation boursière
+Volume24h:        Volume 24h
+TotalSupply:      Offre totale
+PercentChange1h:  "% modifié (1h)"
+PercentChange24h: "% modifié (24h)"
+PercentChange7d:  "% modifié (7d)"

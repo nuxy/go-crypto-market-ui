@@ -1,0 +1,58 @@
+#
+# Help widget
+#
+KeyboardShortcuts: "Tasti rapidi"
+KeyboardCommands: |
+  Comando      Descrizione
+  ──────────────────────────────────────────────────────────────
+     1         Ordina per colonna: Simbolo
+     2         Ordina per colonna: Nome
+     3         Ordina per colonna: Prezzo
+     4         Ordina per colonna: Cap. di mercato
+     5         Ordina per colonna: Volume 24 ore
+     6         Ordina per colonna: Fornitura totale
+     7         Ordina per colonna: % Chg (1h)
+     8         Ordina per colonna: % Chg (24h)
+     9         Ordina per colonna: % Chg (7d)
+
+     🠹         Scorri l'elemento verso l'alto.
+     🠻         Scorri l'elemento verso il basso.
+
+    Home       Configura l'applicazione.
+    End        Uscire dall'applicazione.
+    Esc        Chiudi la finestra / ricarica la pagina.
+
+     ?         Questo menu di aiuto.
+
+#
+# Holdings widget
+#
+MarketHoldings:   Partecipazioni
+
+#
+# Profile widget
+#
+MarketProfile:    Profilo del mercato
+
+#
+# Setup widget
+#
+Configuration:    Configurazione
+ServiceName:      Nome di Servizio
+APIKey:           Chiave API
+Currency:         Codice valuta
+Language:         Codice lingua
+RefreshRate:      Frequenza di aggiornamento
+
+#
+# Quotes widget
+#
+Symbol:           Simbolo
+Name:             Nome
+Price:            Prezzo
+MarketCap:        Cap. di mercato
+Volume24h:        Volume 24 ore
+TotalSupply:      Fornitura totale
+PercentChange1h:  "% Chg (1h)"
+PercentChange24h: "% Chg (24h)"
+PercentChange7d:  "% Chg (7d)"

@@ -1,0 +1,58 @@
+#
+# Help widget
+#
+KeyboardShortcuts: "Tastatürkürzel"
+KeyboardCommands: |
+  Befehl       Beschreibung
+  ──────────────────────────────────────────────────────────────
+     1         Nach Spalte sortieren: Symbol
+     2         Nach Spalte sortieren: Name
+     3         Nach Spalte sortieren: Preis
+     4         Nach Spalte sortieren: Marktkapitalisierung
+     5         Nach Spalte sortieren: 24h Lautstärke
+     6         Nach Spalte sortieren: Gesamtangebot
+     7         Nach Spalte sortieren: % Geändert (1h)
+     8         Nach Spalte sortieren: % Geändert (24h)
+     9         Nach Spalte sortieren: % Geändert (7d)
+
+     🠹         Bildlauf nach oben.
+     🠻         Bildlauf nach unten.
+
+    Home       Konfigurieren Sie die Anwendung.
+    End        Beenden Sie die Anwendung.
+    Esc        Fenster schließen / Seite neu laden.
+
+     ?         Dieses Hilfemenü.
+
+#
+# Holdings widget
+#
+MarketHoldings:   Beteiligungen
+
+#
+# Profile widget
+#
+MarketProfile:    Marktprofil
+
+#
+# Setup widget
+#
+Configuration:    Aufbau
+ServiceName:      Dienstname
+APIKey:           API-Schlüssel
+Currency:         Währungscode
+Language:         Sprachcode
+RefreshRate:      Aktualisierungsrate
+
+#
+# Quotes widget
+#
+Symbol:           Symbol
+Name:             Name
+Price:            Preis
+MarketCap:        Marktkapitalisierung
+Volume24h:        24h Lautstärke
+TotalSupply:      Gesamtangebot
+PercentChange1h:  "% Geändert (1h)"
+PercentChange24h: "% Geändert (24h)"
+PercentChange7d:  "% Geändert (7d)"
