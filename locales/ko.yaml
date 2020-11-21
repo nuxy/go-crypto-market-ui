@@ -1,0 +1,58 @@
+#
+# Help widget
+#
+KeyboardShortcuts: "키보드 단축키"
+KeyboardCommands: |
+  명령         기술
+  ────────────────────────────────────────────────────
+     1         열로 정렬: 상징
+     2         열로 정렬: 이름
+     3         열로 정렬: 가격
+     4         열로 정렬: 시가 총액
+     5         열로 정렬: 24 시간 거래량
+     6         열로 정렬: 총 공급
+     7         열로 정렬: % 변경(1시간)
+     8         열로 정렬: % 변경(24시간)
+     9         열로 정렬: % 변경(7일)
+
+     🠹         항목 위로 스크롤。
+     🠻         항목을 아래로 스크롤。
+
+    Home       응용 프로그램 구성。
+    End        응용 프로그램 종료。
+    Esc        창 닫기 / 페이지 새로 고침。
+
+     ?         이 도움말 메뉴。
+
+#
+# Holdings widget
+#
+MarketHoldings:   지주
+
+#
+# Profile widget
+#
+MarketProfile:    시장 프로필
+
+#
+# Setup widget
+#
+Configuration:    구성
+ServiceName:      작업 명
+APIKey:           API 키
+Currency:         통화 코드
+Language:         언어 코드
+RefreshRate:      재생률
+
+#
+# Quotes widget
+#
+Symbol:           상징
+Name:             이름
+Price:            가격
+MarketCap:        시가 총액
+Volume24h:        24 시간 거래량
+TotalSupply:      총 공급
+PercentChange1h:  "% 변경(1시간)"
+PercentChange24h: "% 변경(24시간)"
+PercentChange7d:  "% 변경(7일)"

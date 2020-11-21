@@ -156,20 +156,22 @@ func (widget *Quotes) results() []results.Quotes {
 // Returns results rows.
 //
 func (widget *Quotes) rows() []string {
+	padWidth := widget.padWidth("default")
+
 	rows := []string{}
 
 	for i, v := range widget.results() {
 		row := fmt.Sprint(
-			common.PadRgt(i + 1,                                     7),
-			common.PadRgt(v.Symbol,                                 10),
-			common.PadRgt(widget.name(v.Name),                      18),
-			common.PadRgt(widget.price(v.Price),                    15),
-			common.PadRgt(widget.marketCap(v.MarketCap),            25),
-			common.PadRgt(widget.volume24h(v.Volume24h),            20),
-			common.PadRgt(widget.totalSupply(v.TotalSupply),        20),
-			common.PadRgt(widget.percentChange(v.PercentChange1h),  20),
-			common.PadRgt(widget.percentChange(v.PercentChange24h), 20),
-			common.PadRgt(widget.percentChange(v.PercentChange7d),  16),
+			common.PadRgt(i + 1,                                    padWidth[0]),
+			common.PadRgt(v.Symbol,                                 padWidth[1]),
+			common.PadRgt(widget.name(v.Name),                      padWidth[2]),
+			common.PadRgt(widget.price(v.Price),                    padWidth[3]),
+			common.PadRgt(widget.marketCap(v.MarketCap),            padWidth[4]),
+			common.PadRgt(widget.volume24h(v.Volume24h),            padWidth[5]),
+			common.PadRgt(widget.totalSupply(v.TotalSupply),        padWidth[6]),
+			common.PadRgt(widget.percentChange(v.PercentChange1h),  padWidth[7]),
+			common.PadRgt(widget.percentChange(v.PercentChange24h), padWidth[8]),
+			common.PadRgt(widget.percentChange(v.PercentChange7d),  padWidth[9]),
 		)
 
 		// Highlight daily changes (e.g. loss).
@@ -187,17 +189,19 @@ func (widget *Quotes) rows() []string {
 // Returns results header.
 //
 func (widget *Quotes) header() string {
+	padWidth := widget.padWidth(widget.Language.Code)
+
 	return fmt.Sprint(
-		common.PadRgt("#",                               7),
-		common.PadRgt(widget.title("Symbol"),           10),
-		common.PadRgt(widget.title("Name"),             18),
-		common.PadRgt(widget.title("Price"),            15),
-		common.PadRgt(widget.title("MarketCap"),        25),
-		common.PadRgt(widget.title("Volume24h"),        20),
-		common.PadRgt(widget.title("TotalSupply"),      20),
-		common.PadRgt(widget.title("PercentChange1h"),  20),
-		common.PadRgt(widget.title("PercentChange24h"), 20),
-		common.PadRgt(widget.title("PercentChange7d"),  16),
+		common.PadRgt("#",                              padWidth[0]),
+		common.PadRgt(widget.title("Symbol"),           padWidth[1]),
+		common.PadRgt(widget.title("Name"),             padWidth[2]),
+		common.PadRgt(widget.title("Price"),            padWidth[3]),
+		common.PadRgt(widget.title("MarketCap"),        padWidth[4]),
+		common.PadRgt(widget.title("Volume24h"),        padWidth[5]),
+		common.PadRgt(widget.title("TotalSupply"),      padWidth[6]),
+		common.PadRgt(widget.title("PercentChange1h"),  padWidth[7]),
+		common.PadRgt(widget.title("PercentChange24h"), padWidth[8]),
+		common.PadRgt(widget.title("PercentChange7d"),  padWidth[9]),
 	)
 }
 
@@ -295,4 +299,26 @@ func (Quotes) name(v string) string {
 
 func (Quotes) totalSupply(v int64) string {
 	return common.FormatCommas(v)
+}
+
+//
+// Returns column padding width by locale.
+//
+func (Quotes) padWidth(locale string) [10]int {
+	switch locale {
+
+	// Multi-byte characters.
+	case "ja":
+		return [10]int{6, 6, 15, 11, 21, 13, 18, 14, 14, 13}
+	case "ko":
+		return [10]int{6, 8, 15, 11, 21, 15, 18, 16, 16, 16}
+	case "vi":
+		return [10]int{6, 12, 17, 13, 25, 20, 21, 20, 20, 19}
+	case "zh":
+		return [10]int{6, 8, 15, 11, 23, 15, 18, 16, 16, 16}
+
+	// Single-byte characters.
+	default:
+		return [10]int{6, 10, 17, 13, 25, 20, 21, 20, 20, 19}
+	}
 }

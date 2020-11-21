@@ -1,0 +1,58 @@
+#
+# Help widget
+#
+KeyboardShortcuts: "Các phím tắt bàn phím"
+KeyboardCommands: |
+  Chỉ huy      Sự miêu tả
+  ──────────────────────────────────────────────────────────────
+     1         Sắp xếp theo cột: Ký hiệu
+     2         Sắp xếp theo cột: Tên
+     3         Sắp xếp theo cột: Giá bán
+     4         Sắp xếp theo cột: Vốn hóa thị trường
+     5         Sắp xếp theo cột: Khối lượng 24h
+     6         Sắp xếp theo cột: Tổng cung
+     7         Sắp xếp theo cột: % Thay đổi (1h)
+     8         Sắp xếp theo cột: % Thay đổi (24h)
+     9         Sắp xếp theo cột: % Thay đổi (7d)
+
+     🠹         Di chuyển mục lên.
+     🠻         Cuộn mục xuống.
+
+    Home       Định cấu hình ứng dụng.
+    End        Thoát ứng dụng.
+    Esc        Đóng cửa sổ / tải lại trang.
+
+     ?         Menu trợ giúp này.
+
+#
+# Holdings widget
+#
+MarketHoldings:   Giữ tiền
+
+#
+# Profile widget
+#
+MarketProfile:    Hồ sơ thị trường
+
+#
+# Setup widget
+#
+Configuration:    Cấu hình
+ServiceName:      Tên dịch vụ
+APIKey:           Mã API
+Currency:         Mã tiền tệ
+Language:         Mật ngữ
+RefreshRate:      Tốc độ làm tươi
+
+#
+# Quotes widget
+#
+Symbol:           Ký hiệu
+Name:             Tên
+Price:            Giá bán
+MarketCap:        Vốn hóa thị trường
+Volume24h:        Khối lượng 24h
+TotalSupply:      Tổng cung
+PercentChange1h:  "% Thay đổi (1h)"
+PercentChange24h: "% Thay đổi (24h)"
+PercentChange7d:  "% Thay đổi (7d)"

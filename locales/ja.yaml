@@ -1,0 +1,58 @@
+#
+# Help widget
+#
+KeyboardShortcuts: "キーボードショートカット"
+KeyboardCommands: |
+  コマンド     説明
+  ────────────────────────────────────────────────────
+     1         列で並べ替え: シンボル
+     2         列で並べ替え: 名前
+     3         列で並べ替え: 価格
+     4         列で並べ替え: 時価総額
+     5         列で並べ替え: 24時間ボリューム
+     6         列で並べ替え: 総供給
+     7         列で並べ替え: % かわった(1時間)
+     8         列で並べ替え: % かわった(24時間)
+     9         列で並べ替え: % かわった(7日々)
+
+     🠹         アイテムを上にスクロールします。
+     🠻         アイテムを下にスクロールします。
+
+    Home       アプリケーションを構成する。
+    End        アプリケーションを終了します。
+    Esc        ウィンドウを閉じる/ページを再読み込みします。
+
+     ?         このヘルプメニュー。
+
+#
+# Holdings widget
+#
+MarketHoldings:   保有米
+
+#
+# Profile widget
+#
+MarketProfile:    マーケットプロファイル
+
+#
+# Setup widget
+#
+Configuration:    構成
+ServiceName:      サービス名
+APIKey:           APIキー
+Currency:         通貨コード
+Language:         言語コード
+RefreshRate:      リフレッシュレート
+
+#
+# Quotes widget
+#
+Symbol:           シンボル
+Name:             名前
+Price:            価格
+MarketCap:        時価総額
+Volume24h:        24時間ボリューム
+TotalSupply:      総供給
+PercentChange1h:  "% 変化する(1時間)"
+PercentChange24h: "% 変化する(24時間)"
+PercentChange7d:  "% 変化する(7日々)"
