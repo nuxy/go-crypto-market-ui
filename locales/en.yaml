@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         This help menu.
 
 #
+# Error widget
+#
+MissingValues:    Enter the missing configuration values
+InvalidService:   The Service Name provided is not supported
+InvalidCurrency:  The Currency Code provided is not supported
+InvalidLanguage:  The Language Code provided is not supported
+
+#
 # Holdings widget
 #
 MarketHoldings:   Holdings

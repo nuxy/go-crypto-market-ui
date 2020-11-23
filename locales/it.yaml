@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         Questo menu di aiuto.
 
 #
+# Error widget
+#
+MissingValues:    Immettere i valori di configurazione mancanti
+InvalidService:   Ní thacaítear leis an tSeirbhís a chuirtear ar fáil
+InvalidCurrency:  Il codice valuta fornito non è supportato
+InvalidLanguage:  Il codice lingua fornito non è supportato
+
+#
 # Holdings widget
 #
 MarketHoldings:   Partecipazioni

@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         이 도움말 메뉴。
 
 #
+# Error widget
+#
+MissingValues:    누락 된 구성 값을 입력하십시오。
+InvalidService:   제공된 서비스가 지원되지 않습니다。
+InvalidCurrency:  제공된 통화 코드는 지원되지 않습니다。
+InvalidLanguage:  제공된 언어 코드는 지원되지 않습니다。
+
+#
 # Holdings widget
 #
 MarketHoldings:   지주

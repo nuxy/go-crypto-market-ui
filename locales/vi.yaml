@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         Menu trợ giúp này.
 
 #
+# Error widget
+#
+MissingValues:    Nhập các giá trị cấu hình bị thiếu
+InvalidService:   Dịch vụ được cung cấp không được hỗ trợ
+InvalidCurrency:  Mã tiền tệ được cung cấp không được hỗ trợ
+InvalidLanguage:  Mã ngôn ngữ được cung cấp không được hỗ trợ
+
+#
 # Holdings widget
 #
 MarketHoldings:   Giữ tiền

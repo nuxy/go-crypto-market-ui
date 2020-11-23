@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         Это меню помощи.
 
 #
+# Error widget
+#
+MissingValues:    Введите недостающие значения конфигурации
+InvalidService:   Предоставляемая услуга не поддерживается
+InvalidCurrency:  Предоставленный код валюты не поддерживается
+InvalidLanguage:  Указанный языковой код не поддерживается
+
+#
 # Holdings widget
 #
 MarketHoldings:   Холдинги

@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         Dieses Hilfemenü.
 
 #
+# Error widget
+#
+MissingValues:    Geben Sie die fehlenden Konfigurationswerte ein
+InvalidService:   Der bereitgestellte Service wird nicht unterstützt
+InvalidCurrency:  Der angegebene Währungscode wird nicht unterstützt
+InvalidLanguage:  Der bereitgestellte Sprachcode wird nicht unterstützt
+
+#
 # Holdings widget
 #
 MarketHoldings:   Beteiligungen

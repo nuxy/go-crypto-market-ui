@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         Ce menu d'aide.
 
 #
+# Error widget
+#
+MissingValues:    Entrez les valeurs de configuration manquantes
+InvalidService:   Le service fourni n'est pas pris en charge
+InvalidCurrency:  Le code de devise fourni n'est pas pris en charge
+InvalidLanguage:  Le code de langue fourni n'est pas pris en charge
+
+#
 # Holdings widget
 #
 MarketHoldings:   Participations

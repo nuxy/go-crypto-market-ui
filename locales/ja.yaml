@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         このヘルプメニュー。
 
 #
+# Error widget
+#
+MissingValues:    不足している構成値を入力します
+InvalidService:   提供されるサービスはサポートされていません
+InvalidCurrency:  提供されている通貨コードはサポートされていません
+InvalidLanguage:  提供されている言語コードはサポートされていません
+
+#
 # Holdings widget
 #
 MarketHoldings:   保有米

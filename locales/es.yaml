@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         Este menú de ayuda.
 
 #
+# Error widget
+#
+MissingValues:    Ingrese los valores de configuración que faltan
+InvalidService:   El servicio proporcionado no es compatible
+InvalidCurrency:  El código de moneda proporcionado no es compatible
+InvalidLanguage:  El código de idioma proporcionado no es compatible
+
+#
 # Holdings widget
 #
 MarketHoldings:   Tenencias

@@ -25,6 +25,14 @@ KeyboardCommands: |
      ?         此帮助菜单。
 
 #
+# Error widget
+#
+MissingValues:    输入缺少的配置值
+InvalidService:   不支持所提供的服务
+InvalidCurrency:  不支持提供的货币代码
+InvalidLanguage:  不支持提供的语言代码
+
+#
 # Holdings widget
 #
 MarketHoldings:   保持
