@@ -33,6 +33,16 @@ InvalidCurrency:  Mã tiền tệ được cung cấp không được hỗ trợ
 InvalidLanguage:  Mã ngôn ngữ được cung cấp không được hỗ trợ
 
 #
+# Hints widget
+#
+HelpMenu:         Danh sách trợ giúp
+ExitProgram:      Thoát chương trình
+ReloadScreen:     Tải lại màn hình
+SaveChanges:      Lưu thay đổi
+NextValue:        Giá trị tiếp theo
+CloseWindow:      Đóng cửa sổ
+
+#
 # Holdings widget
 #
 MarketHoldings:   Giữ tiền

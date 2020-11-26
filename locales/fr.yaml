@@ -33,6 +33,16 @@ InvalidCurrency:  Le code de devise fourni n'est pas pris en charge
 InvalidLanguage:  Le code de langue fourni n'est pas pris en charge
 
 #
+# Hints widget
+#
+HelpMenu:         Menu d'aide
+ExitProgram:      Quitter le programme
+ReloadScreen:     Recharger l'écran
+SaveChanges:      Enregistrer
+NextValue:        Valeur suivante
+CloseWindow:      Fermer la fenêtre
+
+#
 # Holdings widget
 #
 MarketHoldings:   Participations

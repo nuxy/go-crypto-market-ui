@@ -33,6 +33,16 @@ InvalidCurrency:  Предоставленный код валюты не под
 InvalidLanguage:  Указанный языковой код не поддерживается
 
 #
+# Hints widget
+#
+HelpMenu:         Меню помощи
+ExitProgram:      Выйти из программы
+ReloadScreen:     Обновить экран
+SaveChanges:      Сохранить изменения
+NextValue:        Следующее значение
+CloseWindow:      закрыть окно
+
+#
 # Holdings widget
 #
 MarketHoldings:   Холдинги

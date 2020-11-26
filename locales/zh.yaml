@@ -33,6 +33,16 @@ InvalidCurrency:  不支持提供的货币代码
 InvalidLanguage:  不支持提供的语言代码
 
 #
+# Hints widget
+#
+HelpMenu:         帮助菜单
+ExitProgram:      退出程序
+ReloadScreen:     重新载入画面
+SaveChanges:      保存更改
+NextValue:        下一个值
+CloseWindow:      关闭窗口
+
+#
 # Holdings widget
 #
 MarketHoldings:   保持

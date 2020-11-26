@@ -33,6 +33,16 @@ InvalidCurrency:  Der angegebene Währungscode wird nicht unterstützt
 InvalidLanguage:  Der bereitgestellte Sprachcode wird nicht unterstützt
 
 #
+# Hints widget
+#
+HelpMenu:         Hilfemenü
+ExitProgram:      Programm beenden
+ReloadScreen:     Bildschirm neu laden
+SaveChanges:      Änderungen speichern
+NextValue:        Nächster Wert
+CloseWindow:      Fenster schließen
+
+#
 # Holdings widget
 #
 MarketHoldings:   Beteiligungen

@@ -33,6 +33,16 @@ InvalidCurrency:  提供されている通貨コードはサポートされて�
 InvalidLanguage:  提供されている言語コードはサポートされていません
 
 #
+# Hints widget
+#
+HelpMenu:         ヘルプメニュー
+ExitProgram:      終了プログラム
+ReloadScreen:     画面のリロード
+SaveChanges:      変更内容を保存
+NextValue:        次の値
+CloseWindow:      ウィンドウを閉じる
+
+#
 # Holdings widget
 #
 MarketHoldings:   保有米

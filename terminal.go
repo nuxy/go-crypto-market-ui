@@ -146,8 +146,9 @@ func (terminal *Terminal) renderDashboard() {
 	widget1 := terminal.initQuotes()
 	widget2 := terminal.initHoldings()
 	widget3 := terminal.initProfile()
-	widget4 := terminal.initRelease()
-	widget5 := terminal.initClock()
+	widget4 := terminal.initHints()
+	widget5 := terminal.initRelease()
+	widget6 := terminal.initClock()
 
 	actions := func() {
 		widget1.Render()
@@ -156,8 +157,10 @@ func (terminal *Terminal) renderDashboard() {
 
 		widget2.Symbol(selected).Render()
 		widget3.Symbol(selected).Render()
-		widget4.Render()
+		widget4.Dashboard().Render()
+
 		widget5.Render()
+		widget6.Render()
 	}
 
 	events := func(e ui.Event) {
@@ -185,13 +188,16 @@ func (terminal *Terminal) renderSetup() {
 	terminal.useTicker = false
 
 	widget1 := terminal.initSetup()
-	widget2 := terminal.initError()
+	widget2 := terminal.initHints()
+	widget3 := terminal.initError()
 
 	actions := func() {
 		widget1.Render()
 
+		widget2.Setup().Render()
+
 		if len(terminal.Error) > 0 {
-			widget2.Message(terminal.Error).Render()
+			widget3.Message(terminal.Error).Render()
 		}
 	}
 
@@ -223,6 +229,13 @@ func (terminal *Terminal) initError() *widgets.Error {
 //
 func (terminal *Terminal) initHelp() *widgets.Help {
 	return widgets.NewHelp(terminal.Language)
+}
+
+//
+// Returns an instance of the Hints widget.
+//
+func (terminal *Terminal) initHints() *widgets.Hints {
+	return widgets.NewHints(terminal.Language)
 }
 
 //
