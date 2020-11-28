@@ -81,19 +81,25 @@ func (widget *Profile) Render() {
 // Symbol defines the instance content.
 //
 func (widget *Profile) Symbol(v string) *Profile {
-	items := widget.Request.Get().([]results.Metadata)
+	data := widget.Request.Get()
 
-	var data results.Metadata
+	if widget.Request.Error != nil {
+		panic(widget.Request.Error)
+	}
+
+	items := data.([]results.Metadata)
+
+	var item results.Metadata
 
 	for i := 0; i < len(items); i++ {
-		data = items[i]
+		item = items[i]
 
-		if v == data.Symbol {
+		if v == item.Symbol {
 			break
 		}
 	}
 
-	widget.content = data.Description
+	widget.content = item.Description
 
 	return widget
 }

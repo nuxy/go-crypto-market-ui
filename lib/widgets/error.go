@@ -46,10 +46,10 @@ func NewError(language *common.Language) *Error {
 //
 func (widget *Error) Render() {
 	obj := widgets.NewParagraph()
-	obj.Text          = common.PadRgt("⚠", 2) + widget.content
+	obj.Text          = common.PadRgt("⚠", 3) + widget.content
 	obj.BorderStyle   = common.WidgetBorderStyle()
 	obj.TitleStyle    = common.WidgetTitleStyle()
-	obj.PaddingLeft   = 1
+	obj.PaddingLeft   = 2
 	obj.PaddingTop    = 1
 	obj.PaddingRight  = 1
 	obj.PaddingBottom = 1

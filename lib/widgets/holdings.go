@@ -143,7 +143,13 @@ func (widget *Holdings) Symbol(v string) *Holdings {
 // Returns the price for a given symbol.
 //
 func (widget *Holdings) getPrice(symbol string) float64 {
-	items := widget.Request.Get().([]results.Quotes)
+	data := widget.Request.Get()
+
+	if widget.Request.Error != nil {
+		panic(widget.Request.Error)
+	}
+
+	items := data.([]results.Quotes)
 
 	var price float64
 

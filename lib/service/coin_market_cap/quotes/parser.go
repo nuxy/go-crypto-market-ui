@@ -39,7 +39,7 @@ func Parse(body []byte) interface{} {
 	count := reflect.ValueOf(data).Len()
 
 	if count == 0 {
-		log.Fatal("Malformed response.")
+		panic("Malformed response.")
 	}
 
 	items := make([]results.Quotes, count)

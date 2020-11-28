@@ -126,7 +126,13 @@ func (widget *Quotes) Selected() string {
 // Returns API response results.
 //
 func (widget *Quotes) results() []results.Quotes {
-	items := widget.Request.Get().([]results.Quotes)
+	data := widget.Request.Get()
+
+	if widget.Request.Error != nil {
+		panic(widget.Request.Error)
+	}
+
+	items := data.([]results.Quotes)
 
 	// Sort items by field name.
 	sort.SliceStable(items, func(i, j int) bool {

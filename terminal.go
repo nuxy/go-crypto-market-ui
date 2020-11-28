@@ -10,6 +10,7 @@
 package cryptomarketui
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -28,7 +29,7 @@ type Terminal struct {
 	Config    *lib.Config
 	Currency  *common.Currency
 	Language  *common.Language
-	Error     string
+	errors    string
 	useTicker bool
 }
 
@@ -61,35 +62,35 @@ func (terminal *Terminal) initTermui() {
 
 	defer ui.Close()
 
-	// Validate required fields.
+	// Validate required values.
 	if !terminal.Config.IsValid() {
-		terminal.Error = terminal.Language.Translate("MissingValues")
-
-		terminal.renderSetup()
-	}
-
-	if len(terminal.Config.ServiceName()) == 0 {
-		terminal.errors = append(
-			terminal.errors,
-			terminal.Language.Translate("InvalidService"),
-		)
+		terminal.errors = terminal.Language.Translate("MissingValues")
 	}
 
 	if !terminal.Currency.IsValid() {
-		terminal.Error = terminal.Language.Translate("InvalidCurrency")
-
-		terminal.renderSetup()
+		terminal.errors = terminal.Language.Translate("InvalidCurrency")
 	}
 
 	if !terminal.Language.IsValid() {
-		terminal.Error = terminal.Language.Translate("InvalidLanguage")
+		terminal.errors = terminal.Language.Translate("InvalidLanguage")
+	}
 
+	if len(terminal.errors) > 0 {
 		terminal.renderSetup()
 	}
 
-	terminal.Error = ``
+	// Handle request errors.
+	defer func() {
+		if err := recover(); err != nil {
+			terminal.renderError(fmt.Sprint(err))
 
-	// Render termui widgets.
+			if !terminal.useTicker {
+				terminal.renderSetup()
+			}
+		}
+	}()
+
+	// Render terminal widgets.
 	terminal.renderDashboard()
 }
 
@@ -173,6 +174,15 @@ func (terminal *Terminal) renderDashboard() {
 }
 
 //
+// Renders Error widget.
+//
+func (terminal *Terminal) renderError(v string) {
+	terminal.useTicker = false
+
+	terminal.initError().Messages(v).Render()
+}
+
+//
 // Renders Help widget.
 //
 func (terminal *Terminal) renderHelp() {
@@ -189,15 +199,13 @@ func (terminal *Terminal) renderSetup() {
 
 	widget1 := terminal.initSetup()
 	widget2 := terminal.initHints()
-	widget3 := terminal.initError()
 
 	actions := func() {
 		widget1.Render()
-
 		widget2.Setup().Render()
 
-		if len(terminal.Error) > 0 {
-			widget3.Message(terminal.Error).Render()
+		if len(terminal.errors) > 0 {
+			terminal.renderError(terminal.errors)
 		}
 	}
 
@@ -285,6 +293,8 @@ func (terminal *Terminal) exitTerminal() {
 // Resets the terminal application.
 //
 func (terminal *Terminal) resetTerminal() {
+	terminal.errors = ``
+
 	ui.Close()
 
 	terminal.init()
