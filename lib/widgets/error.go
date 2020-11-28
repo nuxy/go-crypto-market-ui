@@ -10,6 +10,8 @@
 package widgets
 
 import (
+	"strings"
+
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
 
@@ -46,7 +48,7 @@ func NewError(language *common.Language) *Error {
 //
 func (widget *Error) Render() {
 	obj := widgets.NewParagraph()
-	obj.Text          = common.PadRgt("⚠", 3) + widget.content
+	obj.Text          = widget.content
 	obj.BorderStyle   = common.WidgetBorderStyle()
 	obj.TitleStyle    = common.WidgetTitleStyle()
 	obj.PaddingLeft   = 2
@@ -65,9 +67,14 @@ func (widget *Error) Render() {
 }
 
 //
-// Message defines the instance content.
+// Messages defines the instance content.
 //
-func (widget *Error) Message(v string) *Error {
-	widget.content = v
+func (widget *Error) Messages(v []string) *Error {
+	for i, text := range v {
+		v[i] = common.PadRgt("⚠", 3) + text
+	}
+
+	widget.content = strings.Join(v, "\n")
+
 	return widget
 }

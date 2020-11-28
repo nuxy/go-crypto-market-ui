@@ -29,7 +29,7 @@ type Terminal struct {
 	Config    *lib.Config
 	Currency  *common.Currency
 	Language  *common.Language
-	errors    string
+	errors    []string
 	useTicker bool
 }
 
@@ -64,15 +64,24 @@ func (terminal *Terminal) initTermui() {
 
 	// Validate required values.
 	if !terminal.Config.IsValid() {
-		terminal.errors = terminal.Language.Translate("MissingValues")
+		terminal.errors = append(
+			terminal.errors,
+			terminal.Language.Translate("MissingValues"),
+		)
 	}
 
 	if !terminal.Currency.IsValid() {
-		terminal.errors = terminal.Language.Translate("InvalidCurrency")
+		terminal.errors = append(
+			terminal.errors,
+			terminal.Language.Translate("InvalidCurrency"),
+		)
 	}
 
 	if !terminal.Language.IsValid() {
-		terminal.errors = terminal.Language.Translate("InvalidLanguage")
+		terminal.errors = append(
+			terminal.errors,
+			terminal.Language.Translate("InvalidLanguage"),
+		)
 	}
 
 	if len(terminal.errors) > 0 {
@@ -82,7 +91,9 @@ func (terminal *Terminal) initTermui() {
 	// Handle request errors.
 	defer func() {
 		if err := recover(); err != nil {
-			terminal.renderError(fmt.Sprint(err))
+			terminal.renderError(
+				[]string{fmt.Sprint(err)},
+			)
 
 			if !terminal.useTicker {
 				terminal.renderSetup()
@@ -119,10 +130,12 @@ func (terminal *Terminal) initEvents(actions common.WidgetAction, events common.
 
 			// Reset the terminal.
 			case "<Escape>":
+				terminal.clearErrors()
 				terminal.resetTerminal()
 
 			// Show Setup screen.
 			case "<Home>":
+				terminal.clearErrors()
 				terminal.renderSetup()
 
 			// Resize the screen.
@@ -158,6 +171,7 @@ func (terminal *Terminal) renderDashboard() {
 
 		widget2.Symbol(selected).Render()
 		widget3.Symbol(selected).Render()
+
 		widget4.Dashboard().Render()
 
 		widget5.Render()
@@ -176,7 +190,7 @@ func (terminal *Terminal) renderDashboard() {
 //
 // Renders Error widget.
 //
-func (terminal *Terminal) renderError(v string) {
+func (terminal *Terminal) renderError(v []string) {
 	terminal.useTicker = false
 
 	terminal.initError().Messages(v).Render()
@@ -202,6 +216,7 @@ func (terminal *Terminal) renderSetup() {
 
 	actions := func() {
 		widget1.Render()
+
 		widget2.Setup().Render()
 
 		if len(terminal.errors) > 0 {
@@ -282,6 +297,13 @@ func (terminal *Terminal) initSetup() *widgets.Setup {
 }
 
 //
+// Clears the terminal error list.
+//
+func (terminal *Terminal) clearErrors() {
+	terminal.errors = terminal.errors[:0]
+}
+
+//
 // Exits the terminal application.
 //
 func (terminal *Terminal) exitTerminal() {
@@ -293,8 +315,6 @@ func (terminal *Terminal) exitTerminal() {
 // Resets the terminal application.
 //
 func (terminal *Terminal) resetTerminal() {
-	terminal.errors = ``
-
 	ui.Close()
 
 	terminal.init()
