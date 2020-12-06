@@ -10,10 +10,13 @@
 package common
 
 import (
+	"io/ioutil"
 	"log"
 	"strings"
 
 	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/markbates/pkger"
+
 	lang "golang.org/x/text/language"
 	yaml "gopkg.in/yaml.v2"
 )
@@ -71,9 +74,21 @@ func (language *Language) load() {
 		code = language.Code
 	}
 
+	path := "/locales/" + code + ".yaml"
+
+	f, err := pkger.Open(path)
+
+	if err != nil {
+		log.Fatal("Failed to open: ", path)
+	}
+
+	defer f.Close()
+
+	bytes, _ := ioutil.ReadAll(f)
+
 	bundle := i18n.NewBundle(lang.English)
 	bundle.RegisterUnmarshalFunc("yaml", yaml.Unmarshal)
-	bundle.LoadMessageFile("locales/" + code + ".yaml")
+	bundle.ParseMessageFileBytes(bytes, path)
 
 	language.instance = i18n.NewLocalizer(bundle, language.Code)
 }
