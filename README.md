@@ -25,7 +25,7 @@ Install the package using [go get](https://golang.org/cmd/go/#hdr-Add_dependenci
 
 ## Building the source
 
-Package a new build with static files using [pkger](https://github.com/markbates/pkger).
+Package build changes that includes static imports using [pkger](https://github.com/markbates/pkger).
 
     $ pgker -import /locales
 
@@ -33,7 +33,7 @@ Install the new build using [gmake](https://www.gnu.org/software/make).
 
     $ make install
 
-Cross-compile to support [Windows](https://golang.org/dl/go1.15.6.windows-amd64.msi), [OSX](https://golang.org/dl/go1.15.6.darwin-amd64.pkg), [FreeBSD](https://golang.org/dl/go1.15.6.freebsd-amd64.tar.gz), [etc](https://golang.org/dl)..
+Cross-compile to support [Windows](https://golang.org/dl/go1.15.6.windows-amd64.msi), [OSX](https://golang.org/dl/go1.15.6.darwin-amd64.pkg), [FreeBSD](https://golang.org/dl/go1.15.6.freebsd-amd64.tar.gz), [etc](https://golang.org/dl) ..
 
     $ make buildall
 
@@ -43,9 +43,13 @@ Once compiled it should be as easy as..
 
     $ crypto-market-ui
 
+## Service API key
+
+Like all cryptocurrency markets the [CoinMarketCap](https://coinmarketcap.com/api/documentation/v1) service requires a valid **API key** in order to query endpoint data.  You can generate an API Key by creating a [FREE account](https://pro.coinmarketcap.com/signup).  While this type of account has a rate limit ([10K call requests per /mo](https://coinmarketcap.com/api/documentation/v1/#section/Errors-and-Rate-Limits)) it should be enough to allow you to run this program consistently as long as you define a conservative **Refresh Rate** value.
+
 ## Examples
 
-### Configuration
+### Configuration Setup
 
 ![Setup](https://raw.githubusercontent.com/nuxy/go-crypto-market-ui/master/preview/setup.png)
 
@@ -53,9 +57,9 @@ Once compiled it should be as easy as..
 
 ![Help](https://raw.githubusercontent.com/nuxy/go-crypto-market-ui/master/preview/help.png)
 
-### Limitations
+## Known Limitations
 
-As of now you must configure cryptocurrencies manually so consider this package a pre-release.  This is due to complexities in how form values are currently being handled which shouldn't be rushed.  Note, this feature is active development which I'm hoping to have ready by the next release (target 12/31), so be patient.
+As of now you must configure cryptocurrencies manually so consider this package a pre-release.  This is due to complexities in how form values are currently being handled which shouldn't be rushed.  Note, this feature is in active development which I'm hoping to have ready by the next release (target 12/31), so be patient.
 
 That being said, adding new cryptocurrency symbols that includes _units_ and _price_ is fairly trivial.  Upon program initialization a configuration file will be created in `$HOME/.crypto-market-ui.yaml` that follows the YAML structure below:
 
@@ -83,7 +87,7 @@ Edit this file by adding the symbols you want to track and restart the program.
 
 ## Contributions
 
-If you fix a bug, or have a code you want to contribute, please send a pull-request with your changes. (Note: Before committing your code please ensure that you run [golint](https://github.com/golang/lint)).  Also, please adhere to the code style set forth in this package (`gofmt` is NOT recommended since _I prefer variable alignment to always be used_).
+If you fix a bug, or have a code you want to contribute, please send a pull-request with your changes. (Note: Before committing your code please ensure that you run [golint](https://github.com/golang/lint)).  Also, please adhere to the code style set forth in this package (`gofmt` is NOT recommended since _I prefer variable alignment_).
 
 ## Versioning
 
