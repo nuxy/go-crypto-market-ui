@@ -27,7 +27,7 @@ Install the package using [go get](https://golang.org/cmd/go/#hdr-Add_dependenci
 
 Package build changes that includes static imports using [pkger](https://github.com/markbates/pkger).
 
-    $ pgker -import /locales
+    $ pkger -include /locales
 
 Install the new build using [gmake](https://www.gnu.org/software/make).
 
