@@ -1,4 +1,4 @@
-# go-crypto-market-ui
+# Crypto Market UI
 
 Command-line utility to track cryptocurrencies in realtime.
 
@@ -23,7 +23,13 @@ Install the package using [go get](https://golang.org/cmd/go/#hdr-Add_dependenci
 
     $ go get github.com/nuxy/go-crypto-market-ui
 
-## Building the source
+### Alternative
+
+Download the [source](https://github.com/nuxy/go-crypto-market-ui/archive/master.zip) and install using [Homebrew](https://brew.sh).
+
+    $ brew install ./homebrew/go-crypto-market-ui.rb
+
+## Build from source
 
 Package build changes that includes static imports using [pkger](https://github.com/markbates/pkger).
 
@@ -84,6 +90,12 @@ That being said, adding new cryptocurrency symbols that includes _units_ and _pr
 ```
 
 Edit this file by adding the symbols you want to track and restart the program.
+
+## Common Questions
+
+### Why doesn't the terminal look like the example in OSX?
+
+This is due to [Monaco typeface](https://en.wikipedia.org/wiki/Monaco_(typeface)) (default font) used by the OSX Terminal.  As result you may experience inconsistent line spacing and text alignment.  As solution is to install the [Ubuntu Mono](https://fonts.google.com/specimen/Ubuntu+Mono#standard-styles) font type which is far superior to the OSX alternative.
 
 ## Contributions
 
