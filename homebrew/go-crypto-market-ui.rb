@@ -3,7 +3,7 @@ class GoCryptoMarketUi < Formula
   homepage "https://github.com/nuxy/go-crypto-market-ui"
   head     "https://github.com/nuxy/go-crypto-market-ui.git"
   url      "https://github.com/nuxy/go-crypto-market-ui/archive/0.0.2.tar.gz"
-  sha256   "642808f1b01085df0d8123f8c9411c0ef56136a11a108f69f17adf26e89f5f1e"
+  sha256   "23ea91d95f386a711c423525fb91b4f80c6f739753bed4672d9f9b9107a47f45"
   license  "MIT"
 
   depends_on "go" => :build
