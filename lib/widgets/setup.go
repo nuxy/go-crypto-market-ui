@@ -103,7 +103,7 @@ func (widget *Setup) RenderFields() {
 		field.Render()
 	}
 
-	widget.setActive()
+	widget.setActive(0)
 }
 
 //
@@ -161,22 +161,22 @@ func (widget *Setup) saveFields() {
 //
 // Sets the active (focused) field.
 //
-func (widget *Setup) setActive() {
+func (widget *Setup) setActive(v ...int) {
 	var nextActive int
 
-	for i, field := range widget.fields {
-		active := field.Active()
+	if len(v) == 0 {
+		for i, field := range widget.fields {
+			active := field.Active()
 
-		if active {
-			field.Active(false)
+			if active {
+				field.Active(false)
 
-			nextActive = i + 1
-			break
+				nextActive = i + 1
+				break
+			}
 		}
-	}
-
-	if nextActive == len(widget.fields) {
-		nextActive = 0
+	} else {
+		nextActive = v[0]
 	}
 
 	widget.fields[nextActive].Active(true)
