@@ -32,6 +32,7 @@ var errorRect = common.Widget{
 type Error struct {
 	Language *common.Language
 	content  string
+	total    int
 }
 
 //
@@ -60,7 +61,7 @@ func (widget *Error) Render() {
 		errorRect.Left,
 		errorRect.Top,
 		errorRect.Right,
-		errorRect.Bottom,
+		errorRect.Bottom * widget.total,
 	)
 
 	ui.Render(obj)
@@ -70,11 +71,16 @@ func (widget *Error) Render() {
 // Messages defines the instance content.
 //
 func (widget *Error) Messages(v []string) *Error {
-	for i, text := range v {
-		v[i] = common.PadRgt("⚠", 3) + text
+	var lines []string
+	var count int
+
+	for _, text := range v {
+		lines = append(lines, common.PadRgt("⚠", 3) + text)
+		count++
 	}
 
-	widget.content = strings.Join(v, "\n")
+	widget.content = strings.Join(lines, "\n")
+	widget.total   = count
 
 	return widget
 }
