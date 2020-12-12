@@ -11,7 +11,7 @@ Command-line utility to track cryptocurrencies in realtime.
 - [CoinMarketCap API](https://coinmarketcap.com/api/documentation/v1) v1 integration (Quotes and Metadata).
 - Localized UI via templates (locales: [de](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/de.yaml), [fr](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/fr.yaml), [es](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/es.yaml), [it](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/it.yaml), [ja](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/ja.yaml), [ko](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/ko.yaml), [ru](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/ru.yaml), [vi](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/vi.yaml), [zh](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales/zh.yaml))
 - Configurable money and currency formatting.
-- Extendable to support new market API [services](https://github.com/nuxy/go-crypto-market-ui/tree/master/lib/services) and [languages](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales).
+- Extendable to support new market API [services](https://github.com/nuxy/go-crypto-market-ui/tree/master/lib/service) and [languages](https://github.com/nuxy/go-crypto-market-ui/tree/master/locales).
 
 ## Dependencies
 
