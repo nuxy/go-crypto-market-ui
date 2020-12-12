@@ -1,4 +1,4 @@
-VERSION = 0.0.1
+VERSION = 0.0.2
 PACKAGE = github.com/nuxy/go-crypto-market-ui/cmd/crypto-market-ui
 LDFLAGS = "-X main.Version=$(VERSION)"
 
