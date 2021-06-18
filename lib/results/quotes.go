@@ -16,7 +16,7 @@ type Quotes struct {
 	Name             string
 	Symbol           string
 	TotalSupply      int64
-    Price            float64
+	Price            float64
 	Volume24h        float64
 	PercentChange1h  float64
 	PercentChange24h float64
