@@ -65,7 +65,7 @@ Like all cryptocurrency markets the [CoinMarketCap](https://coinmarketcap.com/ap
 
 ## Known Limitations
 
-As of now you must configure cryptocurrencies manually so consider this package a pre-release.  This is due to complexities in how form values are currently being handled which shouldn't be rushed.  Note, this feature is in active development which I'm hoping to have ready by the next release (target 12/31), so be patient.
+As of now, you must configure cryptocurrencies manually so consider this package a pre-release.  This is due to complexities in how form values are currently being handled which shouldn't be rushed.  Note, this feature is in active development which I'm hoping to have ready by the next release.
 
 That being said, adding new cryptocurrency symbols that includes _units_ and _price_ is fairly trivial.  Upon program initialization a configuration file will be created in `$HOME/.crypto-market-ui.yaml` that follows the YAML structure below:
 
@@ -95,7 +95,7 @@ Edit this file by adding the symbols you want to track and restart the program.
 
 ### Why doesn't the terminal look like the example in OSX?
 
-This is due to [Monaco typeface](https://en.wikipedia.org/wiki/Monaco_(typeface)) (default font) used by the OSX Terminal.  As result you may experience inconsistent line spacing and text alignment.  As solution is to install the [Ubuntu Mono](https://fonts.google.com/specimen/Ubuntu+Mono#standard-styles) font type which is far superior to the OSX alternative.
+This is due to [Monaco typeface](https://en.wikipedia.org/wiki/Monaco_(typeface)) (default font) used by the OSX Terminal.  As result you may experience inconsistent line spacing and text alignment.  This can be solved by installing the [Ubuntu Mono](https://fonts.google.com/specimen/Ubuntu+Mono#standard-styles) font type (which is used by the demo) or OSX supported Monotype font alternative.
 
 ## Contributions
 
