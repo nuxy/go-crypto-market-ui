@@ -10,7 +10,7 @@
 package lib
 
 import (
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
@@ -61,11 +61,11 @@ func (request *Request) Get() interface{} {
 // Fetch data from remote resource and cache response.
 //
 func (request *Request) fetchData() []byte {
-	url := request.API.URL()
+	URL := request.API.URL()
 
-	validateURL(url)
+	validateURL(URL)
 
-	resp, err := http.Get(url)
+	resp, err := http.Get(URL)
 
 	if err != nil {
 		log.Fatal(err)
@@ -73,7 +73,7 @@ func (request *Request) fetchData() []byte {
 
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(io.Reader(resp.Body))
 
 	if err != nil {
 		log.Fatal(err)
